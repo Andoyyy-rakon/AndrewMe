@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-surface text-on-surface font-inter transition-colors duration-300;
+  }
+}
+
+.net-box-grid {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, #E2E8F0 1px, transparent 1px),
+                    linear-gradient(to bottom, #E2E8F0 1px, transparent 1px);
+}
+
+.dark .net-box-grid {
+  background-image: linear-gradient(to right, #1E293B 1px, transparent 1px),
+                    linear-gradient(to bottom, #1E293B 1px, transparent 1px);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
