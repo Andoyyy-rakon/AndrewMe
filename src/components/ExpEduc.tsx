@@ -130,17 +130,17 @@ const ExpEduc: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative py-24 net-box-grid transition-colors duration-500 overflow-hidden" 
+      className="relative py-16 md:py-24 net-box-grid transition-colors duration-500 overflow-hidden" 
       id="experience-education"
     >
       <div className="max-w-5xl mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
-        <div className="bg-surface/90 backdrop-blur-md border border-on-surface/5 rounded-[2.5rem] p-8 md:p-16 shadow-2xl relative">
-          <div className="text-center mb-16">
+        <div className="bg-surface/90 backdrop-blur-md border border-on-surface/5 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl relative">
+          <div className="text-center mb-10 md:mb-16">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface mb-6 tracking-tight"
+              className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface mb-4 md:mb-6 tracking-tight"
             >
               My Journey
             </motion.h2>
@@ -149,17 +149,17 @@ const ExpEduc: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-lg md:text-xl text-on-surface-variant font-inter italic opacity-80 max-w-2xl mx-auto"
+              className="text-base sm:text-lg md:text-xl text-on-surface-variant font-inter italic opacity-80 max-w-2xl mx-auto"
             >
               From student to aspiring full-stack developer.
             </motion.p>
           </div>
 
-          <div className="flex flex-col items-center mb-12">
-            <div className="inline-flex items-center p-1.5 bg-on-surface/5 rounded-2xl backdrop-blur-sm border border-on-surface/5">
+          <div className="flex flex-col items-center mb-10">
+            <div className="inline-flex items-center p-1 bg-on-surface/5 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-on-surface/5">
                <button
                 onClick={() => setActiveTab('experience')}
-                className={`px-8 py-3 rounded-xl font-plus-jakarta font-bold text-[15px] transition-all duration-300 relative ${
+                className={`px-4 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-plus-jakarta font-bold text-[13px] sm:text-[15px] transition-all duration-300 relative ${
                   activeTab === 'experience' 
                     ? 'text-white' 
                     : 'text-on-surface-variant hover:text-on-surface'
@@ -168,7 +168,7 @@ const ExpEduc: React.FC = () => {
                 {activeTab === 'experience' && (
                   <motion.div 
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-[#131b2e] rounded-xl shadow-lg -z-10"
+                    className="absolute inset-0 bg-[#131b2e] rounded-lg sm:rounded-xl shadow-lg -z-10"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -176,7 +176,7 @@ const ExpEduc: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('education')}
-                className={`px-8 py-3 rounded-xl font-plus-jakarta font-bold text-[15px] transition-all duration-300 relative ${
+                className={`px-4 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-plus-jakarta font-bold text-[13px] sm:text-[15px] transition-all duration-300 relative ${
                   activeTab === 'education' 
                     ? 'text-white' 
                     : 'text-on-surface-variant hover:text-on-surface'
@@ -185,7 +185,7 @@ const ExpEduc: React.FC = () => {
                 {activeTab === 'education' && (
                   <motion.div 
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-[#131b2e] rounded-xl shadow-lg -z-10"
+                    className="absolute inset-0 bg-[#131b2e] rounded-lg sm:rounded-xl shadow-lg -z-10"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -195,7 +195,7 @@ const ExpEduc: React.FC = () => {
           </div>
 
           <motion.div 
-            className="max-w-3xl mx-auto overflow-hidden px-4"
+            className="max-w-3xl mx-auto overflow-hidden"
             initial={false}
             animate={{ height: "auto" }}
             transition={{ 

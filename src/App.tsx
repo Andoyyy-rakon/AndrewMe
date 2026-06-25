@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ExpEduc from './components/ExpEduc';
+import ProjectSection from './components/ProjectSection';
 import Preloader from './components/Preloader';
 import TechIconsOverlay from './components/TechIconsOverlay';
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <TechIconsOverlay />
           <Hero />
           <ExpEduc />
+          <ProjectSection />
         </div>
     </div>
   );
