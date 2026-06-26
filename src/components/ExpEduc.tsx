@@ -131,7 +131,6 @@ const ExpEduc: React.FC = () => {
     <section 
       ref={sectionRef}
       className="relative py-16 md:py-24 net-box-grid transition-colors duration-500" 
-      id="experience-education"
     >
       <div className="max-w-5xl mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
         <div className="bg-surface/90 backdrop-blur-md border border-on-surface/5 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl relative">

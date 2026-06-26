@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import logo from '../assets/images/logo.png';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP ScrollTrigger plugin for manual refresh coordination
+gsap.registerPlugin(ScrollTrigger);
 
 const Navbar: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
@@ -20,6 +25,28 @@ const Navbar: React.FC = () => {
     { name: 'Journey', href: '#experience-education' },
     { name: 'Projects', href: '#projects' },
   ];
+
+  // Handle navigation clicks with JavaScript scrollTo
+  // This properly handles GSAP-pinned sections by scrolling to
+  // the element's original position in the document flow
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const targetEl = document.getElementById(targetId);
+    
+    if (targetEl) {
+      // Force GSAP to recalculate all positions (pins/spacers) before we measure
+      ScrollTrigger.refresh();
+      
+      // Get the element's position accounting for GSAP pin spacers
+      const rect = targetEl.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      // Offset by navbar height (~72px)
+      const targetPosition = rect.top + scrollTop - 72;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
     <motion.header 
@@ -41,6 +68,7 @@ const Navbar: React.FC = () => {
             <a 
               key={link.name} 
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="text-sm font-bold font-plus-jakarta text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest"
             >
               {link.name}
@@ -85,7 +113,7 @@ const Navbar: React.FC = () => {
                 <a 
                   key={link.name} 
                   href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className="text-lg font-bold font-plus-jakarta text-on-surface-variant hover:text-primary transition-colors py-2"
                 >
                   {link.name}
