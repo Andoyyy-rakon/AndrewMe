@@ -130,7 +130,7 @@ const ExpEduc: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative py-16 md:py-24 net-box-grid transition-colors duration-500 overflow-hidden" 
+      className="relative py-16 md:py-24 net-box-grid transition-colors duration-500" 
       id="experience-education"
     >
       <div className="max-w-5xl mx-auto px-margin-mobile md:px-margin-desktop relative z-10">

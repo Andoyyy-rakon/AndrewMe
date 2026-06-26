@@ -1,10 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import Ligtaspage from '../assets/images/Ligtaspage.png';
+import Ligtaspage from '../assets/images/LigtasPicslides.png';
 import Familylist from '../assets/images/Familylist.png';
 import LigtasDemo from '../assets/images/LigtasVid.mp4';
 import Alresgreenemojibg from '../assets/images/Alresgreenemoji-no-bg-no-bg.png';
 import ALResDemo from '../assets/images/AlresVidd.mp4';
+import Alearn1st from '../assets/images/Alearn1st.png';
+import Alearn2nd from '../assets/images/Alearn2nd.png';
+import AlearnVid from '../assets/images/Alearnvid.mp4';
 
 interface Project {
   id: string;
@@ -253,13 +256,25 @@ const ProjectSection: React.FC = () => {
     {
       id: 'ligtas',
       title: 'LIGTAS',
-      description: 'Developed an emergency alert and monitoring system for disaster communication in areas without cellular connectivity. The platform enables real-time distress reporting, location tracking, and response coordination through a web dashboard powered by RF and GNSS technologies.',
+      description: 'Engineered a full-stack emergency communication and monitoring platform designed to operate in disaster-prone areas where cellular networks are unavailable. The system enables users to send real-time distress alerts, share location data, and coordinate emergency responses through RF and GNSS technologies, providing a reliable communication solution even without mobile signal or internet connectivity.',
       tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'WebSocket', 'Tailwind CSS', 'RF / GNSS'],
       sliderBg: 'bg-[#dbeafe]',
       media: [
         { type: 'image', src: Ligtaspage, alt: 'LIGTAS Home Page', title: 'Main Dashboard' },
         { type: 'image', src: Familylist, alt: 'LIGTAS Family List', title: 'Family Census Records' },
         { type: 'video', src: LigtasDemo, alt: 'LIGTAS Demo Video', title: 'Interactive Demo' },
+      ]
+    },
+    {
+      id: 'alearn',
+      title: 'ALearn | AI-Powered Study Platform',
+      description: 'Built a full-stack AI-powered learning platform that transforms study topics into interactive flashcards and quizzes to promote active learning and long-term knowledge retention. The platform leverages AI to generate personalized study materials, provide detailed explanations, and deliver an engaging learning experience through a responsive and modern interface.',
+      tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
+      sliderBg: 'bg-[#ede9fe]',
+      media: [
+        { type: 'image', src: Alearn1st, alt: 'ALearn Platform Preview', title: 'Interactive Learning' },
+        { type: 'image', src: Alearn2nd, alt: 'ALearn Study Interface', title: 'Personalized Study' },
+        { type: 'video', src: AlearnVid, alt: 'ALearn Demo Video', title: 'Platform Walkthrough' },
       ]
     }
   ];
@@ -268,7 +283,7 @@ const ProjectSection: React.FC = () => {
 
   return (
     <section 
-      className="relative bg-white border-t border-black transition-colors duration-500"
+      className="relative bg-white transition-colors duration-500"
       id="projects"
     >
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
