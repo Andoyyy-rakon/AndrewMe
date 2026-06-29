@@ -8,6 +8,9 @@ import ExpEduc from './components/ExpEduc';
 import ProjectSection from './components/ProjectSection';
 import Preloader from './components/Preloader';
 import TechIconsOverlay from './components/TechIconsOverlay';
+import Skills from './components/Skills';
+import Connect from './components/Contact';
+
 
 // Register GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -97,6 +100,9 @@ const App: React.FC = () => {
               <ProjectSection />
             </div>
           </div>
+          
+          <Skills />
+          <Connect />
         </div>
     </div>
   );

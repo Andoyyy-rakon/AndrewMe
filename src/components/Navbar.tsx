@@ -24,6 +24,8 @@ const Navbar: React.FC = () => {
     { name: 'Home', href: '#hero' },
     { name: 'Journey', href: '#experience-education' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Connect', href: '#connect' },
   ];
 
   // Handle navigation clicks with JavaScript scrollTo

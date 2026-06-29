@@ -826,13 +826,20 @@ const ProjectSection: React.FC = () => {
     >
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
         
-        {/* Centered Heading */}
-        <div className="text-center mb-12 md:mb-16">
+        {/* Section Heading with Watermark Background */}
+        <div className="relative mb-12 md:mb-16 flex items-center justify-start py-8 select-none">
+          {/* Large watermark text */}
+          <span 
+            className="absolute left-[60px] sm:left-[80px] md:left-[100px] text-[70px] sm:text-[100px] md:text-[150px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
+          >
+            PROJECTS
+          </span>
+          {/* Foreground heading */}
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-6xl font-plus-jakarta font-extrabold text-on-surface tracking-tighter"
+            className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-plus-jakarta font-extrabold text-primary tracking-tight"
           >
             Projects
           </motion.h2>
