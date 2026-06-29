@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Ligtaspage from '../assets/images/LigtasPicslides.png';
 import Familylist from '../assets/images/Familylist.png';
@@ -17,6 +17,19 @@ interface Project {
   media: { type: string; src: string; alt: string; title: string }[];
   sliderBg: string;
 }
+
+const normalizeTechName = (name: string): string => {
+  const lower = name.toLowerCase().trim();
+  if (lower.startsWith('react')) return 'React.js';
+  if (lower.startsWith('node')) return 'Node.js';
+  if (lower.startsWith('express')) return 'Express.js';
+  if (lower.startsWith('mongodb')) return 'MongoDB';
+  if (lower.startsWith('websocket')) return 'WebSocket';
+  if (lower.startsWith('tailwind')) return 'Tailwind CSS';
+  if (lower === 'typescript') return 'TypeScript';
+  if (lower.includes('rf') || lower.includes('gnss')) return 'RF / GNSS';
+  return name;
+};
 
 /* Tech icon mapping */
 const techConfig: Record<string, { icon: React.ReactNode; bg: string; text: string }> = {
@@ -59,11 +72,43 @@ const techConfig: Record<string, { icon: React.ReactNode; bg: string; text: stri
     icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0H1.125zm17.363 9.75c.612 0 1.154.037 1.627.111v2.111c-.473-.074-1.015-.111-1.627-.111-1.259 0-2.167.315-2.722.944-.555.63-.833 1.574-.833 2.833V24h-2.111V9.75h2.111v1.111c.148-.37.407-.741.778-1.111s1.074-.759 2.111-.759zm-13.388 0c1.037 0 1.944.352 2.722 1.056L6.444 12.33c-.556-.481-1.074-.722-1.556-.722-.481 0-.889.185-1.222.556s-.5.852-.5 1.444c0 .593.167 1.074.5 1.444s.741.556 1.222.556c.481 0 1-.241 1.556-.722l1.389 1.528c-.778.704-1.685 1.056-2.722 1.056-1.185 0-2.185-.389-3-1.167S0 15.685 0 14.444c0-1.241.407-2.259 1.222-3.056s1.815-1.194 3-1.138z" transform="translate(4 4) scale(0.66)"/></svg>,
     bg: 'bg-[#e0f2fe]',
     text: 'text-[#0369a1]'
+  },
+  'Framer Motion': {
+    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 0H0v12h12L24 0zM0 12v12l12-12H0zM12 12v12h12L12 12z"/></svg>,
+    bg: 'bg-[#fbe8f6]',
+    text: 'text-[#d946ef]'
+  },
+  'Gemini AI': {
+    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.5-4.5 10-10 10 5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z"/></svg>,
+    bg: 'bg-[#ede9fe]',
+    text: 'text-[#8b5cf6]'
+  },
+  'JWT Authentication': {
+    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>,
+    bg: 'bg-[#fffbeb]',
+    text: 'text-[#d97706]'
+  },
+  'Google OAuth': {
+    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.213 4.114-3.593 0-6.5-2.91-6.5-6.5s2.907-6.5 6.5-6.5c1.63 0 3.136.6 4.3 1.688l3.1-3.1C18.99 1.95 15.82 1 12.24 1c-6.075 0-11 4.925-11 11s4.925 11 11 11c6.51 0 11.233-4.595 11.233-11.24 0-.682-.082-1.39-.233-2.075H12.24z"/></svg>,
+    bg: 'bg-[#fef2f2]',
+    text: 'text-[#ef4444]'
+  },
+  'Puppeteer': {
+    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-6.9 2.7l3 3c.6-.4 1.3-.7 1.9-.7a4 4 0 11-4 4c0-.6.3-1.3.7-1.9l-3-3A10 10 0 1012 2zm5 10a1 1 0 11-2 0 1 1 0 012 0z"/></svg>,
+    bg: 'bg-[#ecfdf5]',
+    text: 'text-[#10b981]'
+  },
+  'Mongoose': {
+    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 1.79-9 4s4.03 4 9 4 9-1.79 9-4-4.03-4-9-4zm0 6c-3.87 0-7-1.12-7-2.5S8.13 4 12 4s7 1.12 7 2.5S15.87 9 12 9zm0 3c-4.97 0-9 1.79-9 4s4.03 4 9 4 9-1.79 9-4-4.03-4-9-4zm0 6c-3.87 0-7-1.12-7-2.5S8.13 13 12 13s7 1.12 7 2.5S15.87 18 12 18z"/></svg>,
+    bg: 'bg-[#fff7ed]',
+    text: 'text-[#ea580c]'
   }
 };
 
 const TechTag: React.FC<{ name: string }> = ({ name }) => {
-  const config = techConfig[name] || { icon: null, bg: 'bg-[#1e293b]', text: 'text-slate-300' };
+  const norm = normalizeTechName(name);
+  const config = techConfig[norm] || techConfig[name] || { icon: null, bg: 'bg-[#1e293b]', text: 'text-slate-300' };
+  
   return (
     <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] md:text-[12px] font-semibold uppercase tracking-wider rounded-md ${config.bg} ${config.text}`}>
       {config.icon}
@@ -153,15 +198,423 @@ const MediaSlider: React.FC<{ project: Project; currentSlide: number; setCurrent
   );
 };
 
+
+/* ================================================================
+   PROJECT DETAIL CONTENT DATA
+   ================================================================ */
+
+interface ProjectDetail {
+  overview: string;
+  whyIBuiltThis: string;
+  problem: string;
+  problemBullets?: string[];
+  solution: string;
+  architecture: string[];
+  techCategories: { category: string; items: string[] }[];
+  features: string[];
+  challenges: string;
+  howISolvedThem: string;
+  whatILearned: string[];
+  futureImprovements: string[];
+}
+
+const projectDetails: Record<string, ProjectDetail> = {
+  alres: {
+    overview: 'ALRes is a full-stack AI-powered resume builder designed to help users create professional, ATS-friendly resumes with ease. The platform combines AI-assisted writing, grammar enhancement, personalized resume suggestions, and real-time editing into a single modern workspace. Users can securely manage their resumes, synchronize their work across devices, and export polished PDF documents ready for job applications.',
+    whyIBuiltThis: 'Many job seekers struggle to create professional resumes, especially when writing summaries or describing work experience. Existing resume builders often focus only on templates and formatting while offering limited assistance with the actual writing process.\n\nI wanted to build a platform that not only creates resumes but also acts as an intelligent writing assistant capable of helping users write stronger, more professional resume content.',
+    problem: 'Creating a resume involves much more than selecting a template. Users often struggle with:',
+    problemBullets: [
+      'Writing compelling professional summaries',
+      'Describing work experience effectively',
+      'Maintaining proper grammar and tone',
+      'Producing ATS-friendly documents',
+      'Managing resumes across multiple devices',
+    ],
+    solution: 'ALRes integrates multiple AI services into a single workflow that assists users throughout the resume creation process. The application provides intelligent content generation, writing enhancement, personalized suggestions, real-time previews, cloud synchronization, and PDF export while maintaining a clean and responsive user experience.',
+    architecture: [
+      'Frontend (React)',
+      'REST API (Express.js)',
+      'Authentication (JWT & Google OAuth)',
+      'MongoDB Database',
+      'Gemini AI & Groq AI Services',
+      'Puppeteer PDF Generation',
+    ],
+    techCategories: [
+      { category: 'Frontend', items: ['React', 'Tailwind CSS', 'Framer Motion'] },
+      { category: 'Backend', items: ['Node.js', 'Express.js', 'MongoDB'] },
+      { category: 'Services', items: ['Gemini AI', 'JWT Authentication', 'Google OAuth', 'Puppeteer'] },
+    ],
+    features: [
+      'AI-generated resume content',
+      'Grammar and writing enhancement',
+      'Personalized resume suggestions',
+      'ATS-friendly PDF export',
+      'Real-time resume preview',
+      'Google OAuth authentication',
+      'Cloud Sync & Local Mode',
+      'Responsive interface',
+      'Multi-language support',
+    ],
+    challenges: 'One of the biggest challenges was integrating multiple AI providers while maintaining a consistent user experience. Another challenge involved generating professional PDF documents that preserved formatting across different resume layouts.',
+    howISolvedThem: 'I designed modular backend services that separate AI providers from the application\'s business logic, making future integrations easier. For PDF generation, I used Puppeteer to render HTML templates into consistent ATS-friendly documents while optimizing layouts for different content lengths.',
+    whatILearned: [
+      'Designing scalable MERN applications',
+      'Integrating multiple AI APIs',
+      'Secure authentication using JWT and OAuth',
+      'PDF generation with Puppeteer',
+      'Structuring reusable React components',
+      'Managing complex application state',
+      'Building responsive user interfaces',
+    ],
+    futureImprovements: [
+      'Resume scoring system',
+      'AI interview preparation',
+      'Multiple premium templates',
+      'Resume version history',
+      'Team collaboration',
+      'Cover letter generation',
+      'AI career recommendations',
+    ],
+  },
+  ligtas: {
+    overview: 'LIGTAS is a disaster communication and monitoring platform designed to operate even when traditional cellular networks are unavailable. By integrating RF and GNSS technologies, the system enables users to send distress alerts, transmit location data, and coordinate emergency response efforts through a centralized web dashboard.',
+    whyIBuiltThis: 'Natural disasters frequently disrupt cellular infrastructure, leaving affected communities without reliable communication when it is needed most. I wanted to explore how alternative communication technologies could help maintain emergency coordination during these situations.',
+    problem: 'Most emergency communication systems depend on mobile networks or internet connectivity. During disasters, these services can become unavailable, making it difficult for victims to request assistance and for responders to monitor affected areas.',
+    solution: 'LIGTAS provides an alternative communication system that does not rely on cellular networks. Using RF for message transmission and GNSS for location tracking, the platform enables emergency communication and monitoring even when conventional infrastructure is unavailable.',
+    architecture: [
+      'RF Device + GNSS',
+      'Receiver Station',
+      'Node.js Backend',
+      'MongoDB Database',
+      'React Monitoring Dashboard',
+    ],
+    techCategories: [
+      { category: 'Frontend', items: ['React', 'Tailwind CSS'] },
+      { category: 'Backend', items: ['Node.js', 'Express.js', 'MongoDB'] },
+      { category: 'Communication', items: ['WebSocket', 'RF Module', 'GNSS'] },
+    ],
+    features: [
+      'Emergency distress alerts',
+      'Real-time location tracking',
+      'Disaster monitoring dashboard',
+      'Incident management',
+      'Live communication updates',
+      'WebSocket synchronization',
+      'Responsive interface',
+    ],
+    challenges: 'The primary challenge was designing a communication system that remains functional even when cellular and internet connectivity are unavailable. Integrating hardware communication with a web-based monitoring platform also required careful synchronization between different technologies.',
+    howISolvedThem: 'I implemented RF-based communication for message transmission and GNSS for accurate location tracking while using WebSockets to provide real-time updates on the monitoring dashboard. This architecture allowed emergency information to remain accessible through the centralized web interface without depending on traditional mobile networks.',
+    whatILearned: [
+      'Real-time communication systems',
+      'Hardware and software integration',
+      'WebSocket implementation',
+      'Location-based applications',
+      'Full-stack application architecture',
+      'Team collaboration',
+      'System design for disaster response',
+    ],
+    futureImprovements: [
+      'Offline map support',
+      'Mesh networking',
+      'SMS gateway fallback',
+      'Emergency broadcast system',
+      'Incident analytics dashboard',
+    ],
+  },
+  alearn: {
+    overview: 'ALearn is a full-stack AI-powered learning platform that transforms study topics into interactive flashcards and quizzes. Instead of passively reading notes, students actively engage with AI-generated learning materials that improve understanding and long-term retention.',
+    whyIBuiltThis: 'Students often spend significant time organizing notes before they can begin studying. I wanted to reduce that preparation time by allowing AI to generate structured study materials while still giving users the flexibility to customize their learning experience.',
+    problem: 'Traditional studying is often repetitive and passive. Students struggle to:',
+    problemBullets: [
+      'Organize study materials',
+      'Create effective flashcards',
+      'Build quizzes manually',
+      'Understand difficult concepts',
+      'Stay engaged during study sessions',
+    ],
+    solution: 'ALearn automatically converts study topics into AI-generated flashcards and quizzes while providing explanations for incorrect answers. This creates a more interactive learning experience that encourages active recall and continuous improvement.',
+    architecture: [
+      'Frontend (React)',
+      'REST API (Express.js)',
+      'Google OAuth Authentication',
+      'MongoDB Database',
+      'Gemini AI',
+    ],
+    techCategories: [
+      { category: 'Frontend', items: ['React 19', 'Tailwind CSS', 'Framer Motion'] },
+      { category: 'Backend', items: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose'] },
+    ],
+    features: [
+      'AI-generated flashcards',
+      'AI-generated quizzes',
+      'AI explanations',
+      'Personal study decks',
+      'Google authentication',
+      'Interactive flashcard animations',
+      'Responsive UI',
+      'Light & Dark mode',
+    ],
+    challenges: 'Generating consistent educational content required careful prompt engineering to produce accurate, well-balanced flashcards and quizzes. Another challenge was creating an engaging study interface without overwhelming users.',
+    howISolvedThem: 'I refined AI prompts to improve content quality and designed a clean interface with smooth animations that keeps the focus on learning while making interactions intuitive and enjoyable.',
+    whatILearned: [
+      'AI prompt engineering',
+      'Educational content generation',
+      'Interactive UI design',
+      'Authentication workflows',
+      'REST API development',
+      'Component architecture',
+      'State management',
+    ],
+    futureImprovements: [
+      'Spaced repetition algorithm',
+      'Learning analytics dashboard',
+      'Progress tracking',
+      'Shared study decks',
+      'Voice-based learning',
+      'Mobile application',
+    ],
+  },
+};
+
+/* Accent color config per project */
+const projectAccents: Record<string, { text: string; border: string; bg: string; bgLight: string }> = {
+  alres:  { text: 'text-[#e11d48]', border: 'border-[#e11d48]', bg: 'bg-[#e11d48]', bgLight: 'bg-[#fff1f2]' },
+  ligtas: { text: 'text-[#2563eb]', border: 'border-[#2563eb]', bg: 'bg-[#2563eb]', bgLight: 'bg-[#eff6ff]' },
+  alearn: { text: 'text-[#7c3aed]', border: 'border-[#7c3aed]', bg: 'bg-[#7c3aed]', bgLight: 'bg-[#f5f3ff]' },
+};
+
+
+/* ================================================================
+   EXPLORE CONTENT COMPONENT (inline expandable)
+   ================================================================ */
+
+interface InsightSectionProps {
+  title: string;
+  children: React.ReactNode;
+  index: number;
+}
+
+const InsightSection: React.FC<InsightSectionProps> = ({ title, children, index }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.1 * index }}
+    className="space-y-4"
+  >
+    <h4 className="text-xl sm:text-2xl font-plus-jakarta font-bold text-on-surface">
+      {title}
+    </h4>
+    <div className="text-[15px] sm:text-base text-on-surface-variant leading-relaxed font-inter">
+      {children}
+    </div>
+  </motion.div>
+);
+
+const ProjectExploreContent: React.FC<{
+  project: Project;
+  details: ProjectDetail;
+  onCollapse: () => void;
+}> = ({ project, details, onCollapse }) => {
+  const accent = projectAccents[project.id] || projectAccents.alres;
+
+  return (
+    <div className="pt-12 pb-8 space-y-16 md:space-y-20">
+
+      {/* ── Hero Title ── */}
+      <div className="text-center space-y-2">
+        <span className={`text-sm font-semibold uppercase tracking-[0.2em] ${accent.text} font-inter`}>Case Study</span>
+        <h2 className={`text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-extrabold tracking-tight ${accent.text}`}>
+          {project.title}
+        </h2>
+      </div>
+
+      {/* ── Hero Media ── */}
+      <div className={`relative rounded-[1.5rem] md:rounded-[2rem] p-5 sm:p-8 md:p-10`}>
+        <div className="aspect-video overflow-hidden">
+          {project.media.find(m => m.type === 'video') ? (
+            <video 
+              src={project.media.find(m => m.type === 'video')?.src} 
+              autoPlay loop muted playsInline
+              className="w-full h-full object-contain " 
+            />
+          ) : (
+            <img 
+              src={project.media[0].src} 
+              alt={project.media[0].alt} 
+              className="w-full h-full object-contain" 
+            />
+          )}
+        </div>
+      </div>
+
+      {/* ── Overview & Tech Stack (stacked) ── */}
+      <div className="space-y-12">
+        {/* Description */}
+        <div className="space-y-4">
+          <h3 className="text-2xl sm:text-3xl font-plus-jakarta font-bold text-on-surface">Description</h3>
+          <p className="text-[15px] sm:text-base md:text-lg text-on-surface-variant leading-relaxed font-inter">
+            {details.overview}
+          </p>
+        </div>
+
+        {/* Tech Stack Grid (under description) */}
+        <div className="space-y-5 pt-8 border-t border-on-surface/5">
+          <h3 className="text-2xl sm:text-3xl font-plus-jakarta font-bold text-on-surface">Technologies</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {details.techCategories.map((cat) => (
+              <div key={cat.category} className="space-y-2.5">
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface/40 font-inter">{cat.category}</span>
+                <div className="flex flex-wrap gap-2">
+                  {cat.items.map((item) => (
+                    <TechTag key={item} name={item} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── INSIGHTS Section ── */}
+      <div className="relative">
+        {/* Section Divider with watermark */}
+        <div className="relative mb-12 md:mb-16">
+          {/* Large watermark text */}
+          <span 
+            className="absolute top-1/2 left-0 -translate-y-1/2 text-[60px] sm:text-[80px] md:text-[120px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
+          >
+            INSIGHTS
+          </span>
+          {/* Foreground heading */}
+          <div className="relative flex items-end gap-4">
+            <span className={`text-5xl sm:text-6xl md:text-7xl font-plus-jakarta font-black ${accent.text} opacity-30 leading-none`}>01</span>
+            <h3 className="text-3xl sm:text-4xl font-plus-jakarta font-bold text-on-surface italic leading-tight">Insights</h3>
+          </div>
+        </div>
+
+        {/* Insight Content Sections */}
+        <div className="space-y-12 md:space-y-16 max-w-3xl">
+          
+          <InsightSection title="Why I Built This" index={0}>
+            {details.whyIBuiltThis.split('\n\n').map((p, i) => (
+              <p key={i} className={i > 0 ? 'mt-4' : ''}>{p}</p>
+            ))}
+          </InsightSection>
+
+          <InsightSection title="Problem" index={1}>
+            <p>{details.problem}</p>
+            {details.problemBullets && (
+              <ul className="mt-4 space-y-2">
+                {details.problemBullets.map((b, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.bg}`} />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </InsightSection>
+
+          <InsightSection title="Solution" index={2}>
+            <p>{details.solution}</p>
+          </InsightSection>
+
+          {/* Architecture Flow */}
+          <InsightSection title="Architecture" index={3}>
+            <div className="flex flex-col items-start gap-0 pt-2">
+              {details.architecture.map((step, i) => (
+                <React.Fragment key={i}>
+                  <div className={`px-5 py-3 rounded-xl border font-medium text-sm font-inter ${accent.bgLight} ${accent.border} border-opacity-30`}>
+                    {step}
+                  </div>
+                  {i < details.architecture.length - 1 && (
+                    <div className="ml-6 flex flex-col items-center">
+                      <div className={`w-0.5 h-5 ${accent.bg} opacity-30`} />
+                      <span className={`text-xs ${accent.text} opacity-60`}>↓</span>
+                      <div className={`w-0.5 h-2 ${accent.bg} opacity-30`} />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </InsightSection>
+
+          {/* Features */}
+          <InsightSection title="Features" index={4}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5">
+              {details.features.map((f, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.bg}`} />
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
+          </InsightSection>
+
+          <InsightSection title="Challenges" index={5}>
+            <p>{details.challenges}</p>
+          </InsightSection>
+
+          <InsightSection title="How I Solved Them" index={6}>
+            <p>{details.howISolvedThem}</p>
+          </InsightSection>
+
+          <InsightSection title="What I Learned" index={7}>
+            <ul className="space-y-2">
+              {details.whatILearned.map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.bg}`} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </InsightSection>
+
+          <InsightSection title="Future Improvements" index={8}>
+            <ul className="space-y-2">
+              {details.futureImprovements.map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.bg}`} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </InsightSection>
+        </div>
+      </div>
+
+      {/* ── Collapse Button ── */}
+      <div className="flex justify-center pt-4 pb-4">
+        <button
+          onClick={onCollapse}
+          className={`group inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl border-2 ${accent.border} ${accent.text} font-bold text-sm font-inter hover:shadow-lg active:scale-95 transition-all duration-300`}
+        >
+          <span>Show Less</span>
+          <span className="material-symbols-outlined text-[18px] group-hover:-translate-y-0.5 transition-transform">keyboard_arrow_up</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
+/* ================================================================
+   PROJECT ITEM COMPONENT (with inline expandable explore)
+   ================================================================ */
+
 interface ProjectItemProps {
   project: Project;
   onInView: (id: string) => void;
-  onExplore: (id: string) => void;
+  isExpanded: boolean;
+  onToggleExplore: (id: string) => void;
+  onCollapseExplore: (id: string) => void;
   currentSlide: number;
   setCurrentSlide: (i: number) => void;
+  domRef?: React.Ref<HTMLDivElement>;
+  exploreRef?: React.Ref<HTMLDivElement>;
 }
 
-const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, onExplore, currentSlide, setCurrentSlide }) => {
+const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded, onToggleExplore, onCollapseExplore, currentSlide, setCurrentSlide, domRef, exploreRef }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { 
     margin: "-48% 0px -48% 0px" // Trigger only when almost perfectly centered
@@ -173,8 +626,20 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, onExplore,
     }
   }, [isInView, project.id, onInView]);
 
+  const details = projectDetails[project.id];
+
   return (
-    <div ref={ref} className="min-h-screen flex flex-col justify-center py-12 md:py-24 border-b border-on-surface/5 lg:border-none">
+    <div 
+      ref={(el) => {
+        (ref as any).current = el;
+        if (typeof domRef === 'function') {
+          domRef(el);
+        } else if (domRef && 'current' in domRef) {
+          (domRef as any).current = el;
+        }
+      }} 
+      className="min-h-screen flex flex-col justify-center py-12 md:py-24 border-b border-on-surface/5 lg:border-none"
+    >
       <motion.div 
         initial={{ opacity: 0.2 }}
         animate={{ opacity: isInView ? 1 : 0.2 }}
@@ -211,35 +676,108 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, onExplore,
           </div>
 
           <div className="flex flex-wrap gap-4 pt-2">
-            <a href="#" className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 bg-[#131b2e] text-white font-bold rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm">
-              Visit Site
-            </a>
+            {project.id !== 'ligtas' && (
+              <a href="#" className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 bg-[#131b2e] text-white font-bold rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm">
+                Visit Site
+              </a>
+            )}
             <a href="#" className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 border-2 border-on-surface/10 text-on-surface font-bold rounded-xl hover:bg-on-surface/5 active:scale-95 transition-all text-xs sm:text-sm">
               Code
             </a>
             <button 
-              onClick={() => onExplore(project.id)}
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-primary-container active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2"
+              onClick={() => isExpanded ? onCollapseExplore(project.id) : onToggleExplore(project.id)}
+              className={`w-full sm:w-auto px-6 sm:px-8 py-3 font-bold rounded-xl shadow-lg active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2 ${
+                isExpanded 
+                  ? 'bg-on-surface/10 text-on-surface shadow-none' 
+                  : 'bg-primary text-white hover:bg-primary-container'
+              }`}
             >
-              Explore
-              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+              {isExpanded ? 'Close' : 'Explore'}
+              <span className={`material-symbols-outlined text-[18px] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
+                {isExpanded ? 'keyboard_arrow_up' : 'arrow_forward'}
+              </span>
             </button>
           </div>
         </div>
       </motion.div>
+
+      {/* ── Inline Expandable Explore Content ── */}
+      <AnimatePresence initial={false}>
+        {isExpanded && details && (
+          <motion.div
+            ref={exploreRef as React.Ref<HTMLDivElement>}
+            key={`explore-${project.id}`}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ 
+              height: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+              opacity: { duration: 0.2, delay: 0.05 }
+            }}
+            style={{ overflow: 'hidden' }}
+          >
+            <ProjectExploreContent 
+              project={project} 
+              details={details} 
+              onCollapse={() => onCollapseExplore(project.id)} 
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
+
+/* ================================================================
+   PROJECT SECTION (main)
+   ================================================================ */
+
 const ProjectSection: React.FC = () => {
   const [activeProjectId, setActiveProjectId] = useState('alres');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const [expandedProjectId, setExpandedProjectId] = useState<string | null>(null);
+  
+  // Track DOM element references for each project card and its explore content
+  const projectRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const exploreRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // Reset slide index when project changes to prevent image/sync bugs
   useEffect(() => {
     setCurrentSlide(0);
   }, [activeProjectId]);
+
+  // Expand: scroll to the explore content area after it opens
+  const handleToggleExplore = useCallback((id: string) => {
+    setExpandedProjectId(prev => {
+      if (prev === id) return prev; // already open, do nothing
+      return id;
+    });
+    // Wait for the expand animation to start, then scroll to explore content
+    setTimeout(() => {
+      const exploreEl = exploreRefs.current[id];
+      if (exploreEl) {
+        const rect = exploreEl.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetPosition = rect.top + scrollTop - 80;
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      }
+    }, 50); // minimal delay to let DOM update
+  }, []);
+
+  // Collapse: scroll back to the project card top
+  const handleCollapseExplore = useCallback((id: string) => {
+    setExpandedProjectId(null);
+    setTimeout(() => {
+      const targetEl = projectRefs.current[id];
+      if (targetEl) {
+        const rect = targetEl.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetPosition = rect.top + scrollTop - 80;
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      }
+    }, 100);
+  }, []);
  
   const projects: Project[] = [
     {
@@ -283,7 +821,7 @@ const ProjectSection: React.FC = () => {
 
   return (
     <section 
-      className="relative bg-white transition-colors duration-500"
+      className=" border border-black relative bg-white transition-colors duration-500"
       id="projects"
     >
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
@@ -309,9 +847,13 @@ const ProjectSection: React.FC = () => {
                 key={project.id} 
                 project={project} 
                 onInView={setActiveProjectId}
-                onExplore={() => setIsExploreOpen(true)}
+                isExpanded={expandedProjectId === project.id}
+                onToggleExplore={handleToggleExplore}
+                onCollapseExplore={handleCollapseExplore}
                 currentSlide={currentSlide}
                 setCurrentSlide={setCurrentSlide}
+                domRef={(el) => { projectRefs.current[project.id] = el; }}
+                exploreRef={(el) => { exploreRefs.current[project.id] = el; }}
               />
             ))}
           </div>
@@ -342,72 +884,6 @@ const ProjectSection: React.FC = () => {
         </div>
       </div>
     </div>
-
-      {/* Explore Modal (Full Screen) */}
-      <AnimatePresence>
-        {isExploreOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-surface flex flex-col overflow-y-auto"
-          >
-            {/* Modal Header */}
-            <div className="sticky top-0 z-10 w-full flex justify-between items-center p-6 bg-surface/80 backdrop-blur-md">
-               <h2 className="text-xl font-plus-jakarta font-extrabold text-on-surface">{activeProject.title} Project</h2>
-               <button 
-                onClick={() => setIsExploreOpen(false)}
-                className="p-3 rounded-full hover:bg-on-surface/5 transition-all text-on-surface"
-              >
-                <span className="material-symbols-outlined text-2xl">close</span>
-              </button>
-            </div>
-            
-            <div className="max-w-5xl mx-auto space-y-12 md:space-y-16 p-8 md:p-12 pt-0 pb-24">
-              <div className={`relative ${activeProject.sliderBg} rounded-[2rem] p-6 sm:p-10 md:p-12 shadow-2xl`}>
-                <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
-                  {/* Dynamic media logic based on active project's first video or main image */}
-                  {activeProject.media.find(m => m.type === 'video') ? (
-                    <video 
-                      src={activeProject.media.find(m => m.type === 'video')?.src} 
-                      autoPlay 
-                      loop 
-                      muted 
-                      className="w-full h-full object-contain" 
-                    />
-                  ) : (
-                    <img 
-                      src={activeProject.media[0].src} 
-                      alt={activeProject.media[0].alt} 
-                      className="w-full h-full object-contain" 
-                    />
-                  )}
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
-                <div className="md:col-span-2 space-y-8">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl sm:text-3xl font-bold font-plus-jakarta">Core Objective</h3>
-                    <p className="text-base sm:text-lg md:text-xl text-on-surface-variant leading-relaxed font-inter">
-                      {activeProject.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-10">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl sm:text-3xl font-bold font-plus-jakarta">The Stack</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {activeProject.tech.map(t => <TechTag key={t} name={t} />)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 };
