@@ -133,28 +133,41 @@ const ExpEduc: React.FC = () => {
       className="relative py-16 md:py-24 net-box-grid transition-colors duration-500" 
     >
       <div className="max-w-5xl mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
-        <div className="bg-surface/90 backdrop-blur-md border border-on-surface/5 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl relative">
+        <motion.div 
+          initial={{ opacity: 0, y: 60, filter: 'blur(8px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="bg-surface/90 backdrop-blur-md border border-on-surface/5 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl relative"
+        >
           <div className="text-center mb-10 md:mb-16">
             <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
               className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface mb-4 md:mb-6 tracking-tight"
             >
               My Journey
             </motion.h2>
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
               className="text-base sm:text-lg md:text-xl text-on-surface-variant font-inter italic opacity-80 max-w-2xl mx-auto"
             >
               From student to aspiring full-stack developer.
             </motion.p>
           </div>
 
-          <div className="flex flex-col items-center mb-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="flex flex-col items-center mb-10"
+          >
             <div className="inline-flex items-center p-1 bg-on-surface/5 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-on-surface/5">
                <button
                 onClick={() => setActiveTab('experience')}
@@ -191,7 +204,7 @@ const ExpEduc: React.FC = () => {
                 Education
               </button>
             </div>
-          </div>
+          </motion.div>
 
           <motion.div 
             className="max-w-3xl mx-auto overflow-hidden"
@@ -232,7 +245,7 @@ const ExpEduc: React.FC = () => {
               </motion.div>
             </AnimatePresence>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

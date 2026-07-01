@@ -34,20 +34,25 @@ const Navbar: React.FC = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
-    const targetEl = document.getElementById(targetId);
     
-    if (targetEl) {
-      // Force GSAP to recalculate all positions (pins/spacers) before we measure
-      ScrollTrigger.refresh();
-      
-      // Get the element's position accounting for GSAP pin spacers
-      const rect = targetEl.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      // Offset by navbar height (~72px)
-      const targetPosition = rect.top + scrollTop - 72;
-      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-    }
+    // Close the menu first
     setIsMenuOpen(false);
+    
+    // Delay scroll to let the mobile menu close animation finish (300ms)
+    // so the viewport height is stable when calculating scroll positions
+    setTimeout(() => {
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        // Force GSAP to recalculate all positions (pins/spacers) before we measure
+        ScrollTrigger.refresh();
+        
+        const rect = targetEl.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // Offset by navbar height (~72px)
+        const targetPosition = rect.top + scrollTop - 72;
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      }
+    }, 350);
   };
 
   return (

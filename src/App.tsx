@@ -82,8 +82,8 @@ const App: React.FC = () => {
       
         <div className="relative">
           <Navbar />
-          <TechIconsOverlay />
-          <Hero />
+          <TechIconsOverlay isLoading={isLoading} />
+          <Hero isLoading={isLoading} />
           
           {/* ─── Transition zone ─── */}
           <div className="relative" id="experience-education">

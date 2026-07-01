@@ -1,14 +1,35 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import logo from '../assets/images/logo.png';
 
 const Connect: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('yourname@gmail.com');
+    navigator.clipboard.writeText('polidarioandrewlloyd@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.1,
+      }
+    }
+  };
+
+  const slideUpVariants: Variants = {
+    hidden: { opacity: 0, y: 40, filter: 'blur(6px)' },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+    }
   };
 
   return (
@@ -18,13 +39,17 @@ const Connect: React.FC = () => {
         id="connect"
         className="relative z-20 bg-white transition-colors duration-500 py-20 md:py-32"
       >
-        <div className="max-w-[640px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="max-w-[640px] mx-auto px-margin-mobile md:px-margin-desktop text-center"
+        >
 
           {/* Heading */}
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            variants={slideUpVariants}
             className="text-4xl sm:text-5xl md:text-6xl font-plus-jakarta font-extrabold text-on-surface tracking-tight mb-6"
           >
             Let's Connect
@@ -32,10 +57,7 @@ const Connect: React.FC = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            variants={slideUpVariants}
             className="text-base sm:text-lg text-on-surface-variant font-inter leading-relaxed mb-10"
           >
             I'm currently seeking opportunities as a Frontend Developer or Full-Stack Developer.
@@ -44,14 +66,11 @@ const Connect: React.FC = () => {
 
           {/* Email with Copy Button */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            variants={slideUpVariants}
             className="flex items-center justify-center gap-3 mb-10"
           >
             <span className="text-sm sm:text-base font-inter font-semibold text-on-surface">
-              yourname@gmail.com
+              polidarioandrewlloyd@gmail.com
             </span>
             <button
               onClick={handleCopyEmail}
@@ -66,15 +85,12 @@ const Connect: React.FC = () => {
 
           {/* Social Links Row */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+            variants={slideUpVariants}
             className="flex items-center justify-center gap-4"
           >
             {/* LinkedIn */}
             <a
-              href="https://linkedin.com/in/andrewtayag"
+              href="https://www.linkedin.com/in/andrew-lloyd-polidario"
               target="_blank"
               rel="noopener noreferrer"
               className="w-11 h-11 rounded-xl bg-[#0077B5]/10 flex items-center justify-center text-[#0077B5] hover:bg-[#0077B5] hover:text-white hover:scale-110 active:scale-95 transition-all duration-200"
@@ -85,7 +101,7 @@ const Connect: React.FC = () => {
 
             {/* GitHub */}
             <a
-              href="https://github.com/andrewtayag"
+              href="https://github.com/Andoyyy-rakon"
               target="_blank"
               rel="noopener noreferrer"
               className="w-11 h-11 rounded-xl bg-[#181717]/10 flex items-center justify-center text-[#181717] hover:bg-[#181717] hover:text-white hover:scale-110 active:scale-95 transition-all duration-200"
@@ -107,18 +123,26 @@ const Connect: React.FC = () => {
             </a>
           </motion.div>
 
-        </div>
+        </motion.div>
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="relative z-20 bg-white border-t border-black py-6">
+      {/* <motion.footer 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative z-20 bg-white border-t border-black py-6"
+      > */}
+      <div className='relative z-20 bg-white border-t border-black py-6'>
         <div className="max-w-[1440px] bg-white mx-auto px-margin-mobile md:px-margin-desktop flex items-center justify-center gap-2">
           <span className="text-sm font-inter text-on-surface-variant">
             Designed & Built by Andrew
           </span>
           <img src={logo} alt="Andrew Logo" className="h-5 w-auto object-contain" />
         </div>
-      </footer>
+      </div>
+      {/* </motion.footer> */}
     </>
   );
 };

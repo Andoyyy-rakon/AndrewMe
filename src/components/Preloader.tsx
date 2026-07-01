@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import logo from '../assets/images/logo.png';
 
 const words = [
   "Hello", 
@@ -40,7 +41,11 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           exit={{ opacity: 0, y: -20 }}
           className="text-4xl md:text-6xl font-bold text-primary flex items-center gap-4"
         >
-          <span className="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
+          <img 
+            src={logo} 
+            alt="Logo" 
+            className="w-10 h-10 md:w-14 md:h-14 object-contain"
+          />
           {words[index]}
         </motion.div>
       </div>

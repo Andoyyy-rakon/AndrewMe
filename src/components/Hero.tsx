@@ -49,7 +49,11 @@ const SocialButton: React.FC<SocialButtonProps> = ({ href, icon, label, classNam
   );
 };
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  isLoading?: boolean;
+}
+
+const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -63,65 +67,70 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Smooth cascade entrance — only triggers after preloader ends
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+        staggerChildren: 0.12,
+        delayChildren: 0.4,
       }
     }
   };
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, x: -50 },
+  const slideLeftInVariants: Variants = {
+    hidden: { opacity: 0, x: -300, filter: 'blur(8px)' },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
+      filter: 'blur(0px)',
+      transition: { duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }
     }
   };
 
   const imageVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.8, x: 50 },
+    hidden: { opacity: 0, scale: 0.9, x: 300, filter: 'blur(10px)' },
     visible: { 
       opacity: 1, 
       scale: 1, 
       x: 0,
-      transition: { duration: 1, ease: "easeOut" }
+      filter: 'blur(0px)',
+      transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }
     }
   };
+
+  const shouldAnimate = !isLoading;
 
   return (
     <main id="hero" className="relative min-h-[calc(100vh-72px)] net-box-grid overflow-hidden">
       <motion.div 
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
+        animate={shouldAnimate ? "visible" : "hidden"}
         className="max-w-[1440px] mx-auto px-margin-mobile pt-10 pb-20 flex flex-col md:flex-row md:items-center md:px-margin-desktop md:pt-10 gap-12"
       >
         {/* Left Column: Identity */}
-        <motion.div variants={itemVariants} className="flex-1 z-10 space-y-6 text-center md:text-left">
+        <div className="flex-1 z-10 space-y-6 text-center md:text-left">
           <div className="space-y-4">
-            <div className="flex items-center justify-center md:justify-start gap-2 text-on-surface-variant/70">
-              <span className="material-symbols-outlined text-sm">location_on</span>
-              <span className="font-geist-mono text-[13px] md:text-[14px]">Sipalay City Negros Occidental Philippines</span>
-            </div>
-            <h1 className="font-plus-jakarta text-[42px] sm:text-[56px] md:text-[72px] font-extrabold text-primary leading-[1.1] tracking-tighter">
+            <motion.div variants={slideLeftInVariants} className="flex items-center justify-center md:justify-start gap-1.5 text-on-surface-variant/70">
+              <span className="material-symbols-outlined text-[16px] leading-none">location_on</span>
+              <span className="font-geist-mono text-[13px] md:text-[14px] leading-none">Sipalay City Negros Occidental Philippines</span>
+            </motion.div>
+            <motion.h1 variants={slideLeftInVariants} className="font-plus-jakarta text-[42px] sm:text-[56px] md:text-[72px] font-extrabold text-primary leading-[1.1] tracking-tighter">
               Andrew Lloyd E. Polidario
-            </h1>
-            <p className="font-plus-jakarta text-[24px] sm:text-[32px] md:text-[40px] text-on-surface font-bold">
+            </motion.h1>
+            <motion.p variants={slideLeftInVariants} className="font-plus-jakarta text-[24px] sm:text-[32px] md:text-[40px] text-on-surface font-bold">
               Full-Stack Developer
-            </p>
-            <div className="w-16 h-1 bg-primary rounded-full mx-auto md:mx-0"></div>
+            </motion.p>
+            <motion.div variants={slideLeftInVariants} className="w-16 h-1 bg-primary rounded-full mx-auto md:mx-0"></motion.div>
           </div>
-          <p className="text-on-surface-variant max-w-md mx-auto md:mx-0 leading-relaxed text-[16px] md:text-[18px]">
+          <motion.p variants={slideLeftInVariants} className="text-on-surface-variant max-w-md mx-auto md:mx-0 leading-relaxed text-[16px] md:text-[18px]">
             I am a passionate web developer dedicated to building modern, responsive, and user-friendly web applications. I continuously expand my knowledge and skills to create impactful digital solutions that deliver exceptional user experiences.
-          </p>
+          </motion.p>
           
           {/* Actions */}
-          <div className="flex items-center justify-center md:justify-start gap-6 md:gap-8 pt-6">
+          <motion.div variants={slideLeftInVariants} className="flex items-center justify-center md:justify-start gap-6 md:gap-8 pt-6">
             <SocialButton 
               href="https://www.linkedin.com/in/andrew-lloyd-polidario" 
               icon={<img src={linkedinIcon} alt="LinkedIn" className="w-8 h-8 md:w-10 md:h-10 object-contain" />} 
@@ -152,8 +161,8 @@ const Hero: React.FC = () => {
               className="text-[#E91E63]"
               tooltipColor="bg-pink-600"
             />
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* Right Column: Visual Hero */}
         <motion.div 
