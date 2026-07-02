@@ -192,7 +192,7 @@ const MediaSlider: React.FC<{ project: Project; currentSlide: number; setCurrent
             <div key={index} className="w-full h-full flex-shrink-0 flex flex-col px-1">
               {/* Synchronized Title */}
               <div className="mb-4 h-8 md:h-10 flex items-center">
-                <span className="text-base md:text-xl font-plus-jakarta font-bold text-on-surface leading-tight px-1">
+                <span className="text-base md:text-xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface leading-tight px-1">
                   {item.title}
                 </span>
               </div>
@@ -442,10 +442,10 @@ const InsightSection: React.FC<InsightSectionProps> = ({ title, children, index 
     transition={{ duration: 0.5, delay: 0.1 * index }}
     className="space-y-4"
   >
-    <h4 className="text-xl sm:text-2xl font-plus-jakarta font-bold text-on-surface">
+    <h4 className="text-xl sm:text-2xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface">
       {title}
     </h4>
-    <div className="text-[15px] sm:text-base text-on-surface-variant leading-relaxed font-inter">
+    <div className="text-[15px] sm:text-base text-on-surface-variant dark:text-dark-on-surface-variant leading-relaxed font-inter">
       {children}
     </div>
   </motion.div>
@@ -492,19 +492,19 @@ const ProjectExploreContent: React.FC<{
       <div className="space-y-12">
         {/* Description */}
         <div className="space-y-4">
-          <h3 className="text-2xl sm:text-3xl font-plus-jakarta font-bold text-on-surface">Description</h3>
-          <p className="text-[15px] sm:text-base md:text-lg text-on-surface-variant leading-relaxed font-inter">
+          <h3 className="text-2xl sm:text-3xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface">Description</h3>
+          <p className="text-[15px] sm:text-base md:text-lg text-on-surface-variant dark:text-dark-on-surface-variant leading-relaxed font-inter">
             {details.overview}
           </p>
         </div>
 
         {/* Tech Stack Grid (under description) */}
-        <div className="space-y-5 pt-8 border-t border-on-surface/5">
-          <h3 className="text-2xl sm:text-3xl font-plus-jakarta font-bold text-on-surface">Technologies</h3>
+        <div className="space-y-5 pt-8 border-t border-on-surface/5 dark:border-[#3a3a55]/20">
+          <h3 className="text-2xl sm:text-3xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface">Technologies</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {details.techCategories.map((cat) => (
               <div key={cat.category} className="space-y-2.5">
-                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface/40 font-inter">{cat.category}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface/40 dark:text-dark-on-surface-variant font-inter">{cat.category}</span>
                 <div className="flex flex-wrap gap-2">
                   {cat.items.map((item) => (
                     <TechTag key={item} name={item} />
@@ -519,17 +519,17 @@ const ProjectExploreContent: React.FC<{
       {/* ── INSIGHTS Section ── */}
       <div className="relative">
         {/* Section Divider with watermark */}
-        <div className="relative mb-12 md:mb-16 overflow-hidden">
+        <div className="relative mb-12 md:mb-16 overflow-hidden dark:overflow-visible">
           {/* Large watermark text */}
           <span 
-            className="absolute top-1/2 left-0 -translate-y-1/2 text-[60px] sm:text-[80px] md:text-[120px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
+            className="dark:text-[#27272A] absolute top-1/2 left-0 -translate-y-1/2 text-[60px] sm:text-[80px] md:text-[120px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
           >
             INSIGHTS
           </span>
           {/* Foreground heading */}
           <div className="relative flex items-end gap-4">
             <span className={`text-5xl sm:text-6xl md:text-7xl font-plus-jakarta font-black ${accent.text} opacity-30 leading-none`}>01</span>
-            <h3 className="text-3xl sm:text-4xl font-plus-jakarta font-bold text-on-surface italic leading-tight">Insights</h3>
+            <h3 className="text-3xl sm:text-4xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface italic leading-tight">Insights</h3>
           </div>
         </div>
 
@@ -565,7 +565,7 @@ const ProjectExploreContent: React.FC<{
             <div className="flex flex-col items-start gap-0 pt-2">
               {details.architecture.map((step, i) => (
                 <React.Fragment key={i}>
-                  <div className={`px-5 py-3 rounded-xl border font-medium text-sm font-inter ${accent.bgLight} ${accent.border} border-opacity-30`}>
+                  <div className={`px-5 py-3 rounded-xl border font-medium text-sm font-inter ${accent.bgLight} ${accent.border} border-opacity-30 dark:bg-dark-surface-card dark:text-dark-on-surface`}>
                     {step}
                   </div>
                   {i < details.architecture.length - 1 && (
@@ -679,7 +679,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
           (domRef as any).current = el;
         }
       }} 
-      className="min-h-screen flex flex-col justify-center py-12 md:py-24 border-b border-on-surface/5 lg:border-none"
+      className="min-h-screen flex flex-col justify-center py-12 md:py-24 border-b border-on-surface/5 dark:border-[#3a3a55]/20 lg:border-none"
     >
       <motion.div 
         initial={{ opacity: 0.2 }}
@@ -690,11 +690,11 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
         <div className="space-y-4">
           <div>
             {/* <span className="text-[10px] md:text-sm font-semibold uppercase tracking-[0.2em] text-primary/70 font-inter">Featured Project</span> */}
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface tracking-tight mt-2">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface tracking-tight mt-2">
               {project.title}
             </h3>
           </div>
-          <p className="text-[15px] sm:text-base md:text-lg text-on-surface-variant leading-relaxed font-inter opacity-90 max-w-2xl">
+          <p className="text-[15px] sm:text-base md:text-lg text-on-surface-variant dark:text-dark-on-surface-variant leading-relaxed font-inter opacity-90 max-w-2xl">
             {project.description}
           </p>
         </div>
@@ -710,7 +710,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
         
         <div className="space-y-8 pt-4">
           <div>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-on-surface/50 font-inter mb-4 block">Tech Stack</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-on-surface/50 dark:text-dark-on-surface-variant font-inter mb-4 block">Tech Stack</span>
             <div className="flex flex-wrap gap-2">
               {project.tech.map(t => <TechTag key={t} name={t} />)}
             </div>
@@ -722,7 +722,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
                 href={project.visitLink} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 bg-[#131b2e] text-white font-bold rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm"
+                className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 bg-[#131b2e] dark:bg-primary text-white font-bold rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm"
               >
                 Visit Site
               </a>
@@ -732,7 +732,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
                 href={project.codeLink} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 border-2 border-on-surface/10 text-on-surface font-bold rounded-xl hover:bg-on-surface/5 active:scale-95 transition-all text-xs sm:text-sm"
+                className="flex-1 sm:flex-none text-center px-6 sm:px-8 py-3 border-2 border-on-surface/10 dark:border-dark-on-surface-variant/20 text-on-surface dark:text-dark-on-surface font-bold rounded-xl hover:bg-on-surface/5 dark:hover:bg-dark-on-surface-variant/10 active:scale-95 transition-all text-xs sm:text-sm"
               >
                 Code
               </a>
@@ -740,9 +740,9 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
             <button 
               onClick={() => isExpanded ? onCollapseExplore(project.id) : onToggleExplore(project.id)}
               className={`w-full sm:w-auto px-6 sm:px-8 py-3 font-bold rounded-xl shadow-lg active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2 ${
-                isExpanded 
-                  ? 'bg-on-surface/10 text-on-surface shadow-none' 
-                  : 'bg-primary text-white hover:bg-primary-container'
+                  isExpanded 
+                    ? 'bg-on-surface/10 dark:bg-dark-on-surface-variant/15 text-on-surface dark:text-dark-on-surface shadow-none' 
+                    : 'bg-primary text-white hover:bg-primary-container'
               }`}
             >
               {isExpanded ? 'Close' : 'Explore'}
@@ -843,7 +843,7 @@ const ProjectSection: React.FC = () => {
         { type: 'image', src: Alresgreenemojibg, alt: 'ALRes Project Showcase', title: 'Main Dashboard & Landing' },
         { type: 'video', src: ALResDemo, alt: 'ALRes Demo Video', title: 'Feature Walkthrough' },
       ],
-      visitLink: 'https://alres.onrender.com/',
+      visitLink: 'https://alres-one.vercel.app/',
       codeLink: 'https://github.com/Andoyyy-rakon/ALRes'
     },
     {
@@ -879,7 +879,7 @@ const ProjectSection: React.FC = () => {
 
   return (
     <section 
-      className=" border border-black relative bg-white transition-colors duration-500"
+      className=" border border-black dark:border-[#3a3a55] relative bg-white dark:bg-dark-surface transition-colors duration-500"
       id="projects"
     >
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
@@ -892,7 +892,7 @@ const ProjectSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute left-[60px] sm:left-[80px] md:left-[100px] text-[70px] sm:text-[100px] md:text-[150px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
+            className="dark:text-[#27272A] absolute left-[60px] sm:left-[80px] md:left-[100px] text-[70px] sm:text-[100px] md:text-[150px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
           >
             PROJECTS
           </motion.span>

@@ -40,8 +40,8 @@ const SocialButton: React.FC<SocialButtonProps> = ({ href, icon, label, classNam
         onMouseLeave={() => setIsHovered(false)}
         className={`transition-all duration-300 hover:scale-125 active:scale-95 ${className}`}
         title={title}
-        target={href.startsWith('http') ? "_blank" : undefined}
-        rel={href.startsWith('http') ? "noopener noreferrer" : undefined}
+        target={href.startsWith('http') || href.endsWith('.pdf') ? "_blank" : undefined}
+        rel={href.startsWith('http') || href.endsWith('.pdf') ? "noopener noreferrer" : undefined}
       >
         {icon}
       </a>
@@ -113,20 +113,20 @@ const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
         {/* Left Column: Identity */}
         <div className="flex-1 z-10 space-y-6 text-center md:text-left">
           <div className="space-y-4">
-            <motion.div variants={slideLeftInVariants} className="flex items-center justify-center md:justify-start gap-1.5 text-on-surface-variant/70">
+            <motion.div variants={slideLeftInVariants} className="flex items-center justify-center md:justify-start gap-1.5 text-on-surface-variant/70 dark:text-dark-on-surface-variant/70">
               <span className="material-symbols-outlined text-[16px] leading-none">location_on</span>
               <span className="font-geist-mono text-[13px] md:text-[14px] leading-none">Sipalay City Negros Occidental Philippines</span>
             </motion.div>
             <motion.h1 variants={slideLeftInVariants} className="font-plus-jakarta text-[42px] sm:text-[56px] md:text-[72px] font-extrabold text-primary leading-[1.1] tracking-tighter">
               Andrew Lloyd E. Polidario
             </motion.h1>
-            <motion.p variants={slideLeftInVariants} className="font-plus-jakarta text-[24px] sm:text-[32px] md:text-[40px] text-on-surface font-bold">
+            <motion.p variants={slideLeftInVariants} className="font-plus-jakarta text-[24px] sm:text-[32px] md:text-[40px] text-on-surface dark:text-dark-on-surface font-bold">
               Full-Stack Developer
             </motion.p>
             <motion.div variants={slideLeftInVariants} className="w-16 h-1 bg-primary rounded-full mx-auto md:mx-0"></motion.div>
           </div>
-          <motion.p variants={slideLeftInVariants} className="text-on-surface-variant max-w-md mx-auto md:mx-0 leading-relaxed text-[16px] md:text-[18px]">
-            I am a passionate web developer dedicated to building modern, responsive, and user-friendly web applications. I continuously expand my knowledge and skills to create impactful digital solutions that deliver exceptional user experiences.
+          <motion.p variants={slideLeftInVariants} className="text-on-surface-variant dark:text-dark-on-surface-variant max-w-md mx-auto md:mx-0 leading-relaxed text-[16px] md:text-[18px]">
+            I am a passionate web developer dedicated to building modern, responsive, and user-friendly web applications. I continuously expand my knowledge and skills to create impactful digital solutions that deliver exceptional user experiences. Feel free to view my <a href="/PolidarioAndrewLloydResume.pdf" target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">resume</a>.
           </motion.p>
           
           {/* Actions */}
@@ -140,9 +140,10 @@ const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
             />
             <SocialButton 
               href="https://github.com/Andoyyy-rakon" 
-              icon={<img src="https://cdn.simpleicons.org/github/181717" alt="GitHub" className="w-8 h-8 md:w-10 md:h-10 object-contain" />} 
+              icon={<svg className="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>} 
               label="GitHub"
               title="GitHub"
+              className="text-[#181717] dark:text-dark-on-surface"
               tooltipColor="bg-zinc-900"
             />
             <SocialButton 
@@ -154,7 +155,7 @@ const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
               tooltipColor="bg-red-600"
             />
             <SocialButton 
-              href="#" 
+              href="/PolidarioAndrewLloydResume.pdf" 
               icon={<FileText className="w-8 h-8 md:w-10 md:h-10" />} 
               label="Resume"
               title="Resume"
@@ -170,17 +171,17 @@ const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
           className="flex-1 relative min-h-[350px] sm:min-h-[450px] flex items-center justify-center md:min-h-[600px]"
         >
           {/* Background Glowing Orbs */}
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-80 sm:h-80 bg-primary/20 rounded-full blur-[80px] md:blur-[100px] animate-pulse-glow"
+          {/* <div 
+            className="absolute top-12  -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-80 sm:h-80 bg-primary/20 rounded-full blur-[80px] md:blur-[100px] animate-pulse-glow"
             style={{ transform: `translate(calc(-50% + ${mousePos.x * 0.5}px), calc(-50% + ${mousePos.y * 0.5}px))` }}
           ></div>
           <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 sm:w-60 sm:h-60 bg-secondary/20 rounded-full blur-[60px] md:blur-[80px] animate-pulse-glow"
+            className="absolute top-12 -translate-x-1/2 -translate-y-1/2 w-48 h-48 sm:w-60 sm:h-60 bg-secondary/20 rounded-full blur-[60px] md:blur-[80px] animate-pulse-glow"
             style={{ 
               animationDelay: '1.5s',
               transform: `translate(calc(-50% + ${mousePos.x}px), calc(-50% + ${mousePos.y}px))` 
             }}
-          ></div>
+          ></div> */}
 
           {/* Hero Image Container */}
           <div className="relative w-full max-w-[320px] sm:max-w-[400px] md:max-w-[450px] z-10 group flex items-center justify-center">

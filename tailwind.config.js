@@ -54,7 +54,11 @@ export default {
         "inverse-primary": "#c0c1ff",
         "on-primary-container": "#fffbff",
         "surface-variant": "#dae2fd",
-        "tertiary-container": "#9c48ea"
+        "tertiary-container": "#9c48ea",
+        "dark-surface": "#18181B", //bg
+        "dark-surface-card": "#242427",
+        "dark-on-surface": "#e8e8f0",
+        "dark-on-surface-variant": "#FAFAFA"
       },
       borderRadius: {
         "DEFAULT": "0.125rem",

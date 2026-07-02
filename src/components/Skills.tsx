@@ -121,12 +121,12 @@ const SkillCard: React.FC<{
     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
     viewport={{ once: true, margin: "-50px" }}
     transition={{ delay: index * 0.06, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-    className={`flex items-center gap-3 px-4 py-3 rounded-[0.85rem] border border-on-surface/5 ${containerBg} hover:shadow-sm hover:scale-[1.02] active:scale-95 transition-all w-44 sm:w-48`}
+    className={`flex items-center gap-3 px-4 py-3 rounded-[0.85rem] border border-on-surface/5 dark:border-[#3a3a55]/20 ${containerBg} dark:bg-dark-surface-card hover:shadow-sm hover:scale-[1.02] active:scale-95 transition-all w-44 sm:w-48`}
   >
     <div className={`w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg ${bgColor} ${iconColor}`}>
       {icon}
     </div>
-    <span className="font-inter font-semibold text-sm text-on-surface whitespace-nowrap overflow-hidden text-ellipsis">
+    <span className="font-inter font-semibold text-sm text-on-surface dark:text-dark-on-surface whitespace-nowrap overflow-hidden text-ellipsis">
       {name}
     </span>
   </motion.div>
@@ -136,7 +136,7 @@ const Skills: React.FC = () => {
   return (
     <section 
       id="skills" 
-      className="relative min-h-[50vh] bg-surface net-box-grid transition-colors duration-500 py-16 md:py-24"
+      className="relative min-h-[50vh] bg-surface dark:bg-dark-surface net-box-grid transition-colors duration-500 py-16 md:py-24"
     >
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
         
@@ -148,7 +148,7 @@ const Skills: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute left-[60px] sm:left-[80px] md:left-[100px] text-[70px] sm:text-[100px] md:text-[150px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
+            className="dark:text-[#27272A] absolute left-[60px] sm:left-[80px] md:left-[100px] text-[70px] sm:text-[100px] md:text-[150px] font-plus-jakarta font-black uppercase tracking-tighter text-on-surface/[0.03] select-none pointer-events-none leading-none whitespace-nowrap"
           >
             SKILLS
           </motion.span>
@@ -175,7 +175,7 @@ const Skills: React.FC = () => {
               className="space-y-6"
             >
               {/* Category Title */}
-              <h3 className="text-xl sm:text-2xl font-plus-jakarta font-bold text-on-surface/80 tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-plus-jakarta font-bold text-on-surface/80 dark:text-dark-on-surface/80 tracking-tight">
                 {group.category}
               </h3>
               

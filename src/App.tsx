@@ -73,7 +73,7 @@ const App: React.FC = () => {
   }, [isLoading]);
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface">
+    <div className="min-h-screen bg-surface text-on-surface dark:bg-dark-surface dark:text-dark-on-surface">
       <AnimatePresence mode="wait">
         {isLoading && (
           <Preloader key="preloader" onComplete={() => setIsLoading(false)} />
@@ -95,7 +95,7 @@ const App: React.FC = () => {
             {/* Projects — slides smoothly over the frozen Journey */}
             <div
               ref={projectWrapperRef}
-              className="relative z-20 bg-white shadow-[0_-40px_80px_-10px_rgba(0,0,0,0.35)]"
+              className="relative z-20 bg-white dark:bg-dark-surface shadow-[0_-40px_80px_-10px_rgba(0,0,0,0.35)]"
             >
               <ProjectSection />
             </div>

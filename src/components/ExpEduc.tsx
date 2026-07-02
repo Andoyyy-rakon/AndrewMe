@@ -18,7 +18,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, subtitle, date, loca
       className="relative pl-10 pb-12 group"
     >
       {/* Timeline Line Track */}
-      <div className="absolute left-[4.5px] top-[14px] bottom-0 w-[2px] bg-on-surface/10 overflow-hidden">
+      <div className="absolute left-[4.5px] top-[14px] bottom-0 w-[2px] bg-on-surface/10 dark:bg-dark-on-surface-variant/20 overflow-hidden">
         {/* Dynamic Bouncing Pulse */}
         <motion.div 
           initial={{ top: "-40px" }}
@@ -38,10 +38,10 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, subtitle, date, loca
       </div>
       
       {/* Timeline Dot (Solid black) */}
-      <div className="absolute left-0 top-[6px] w-[11px] h-[11px] rounded-full bg-[#131b2e] z-10 transition-transform duration-300 group-hover:scale-125"></div>
+      <div className="absolute left-0 top-[6px]  w-[11px] h-[11px] rounded-full bg-[#131b2e] dark:bg-dark-on-surface-variant z-10 transition-transform duration-300 "></div>
 
       <div className="space-y-1">
-        <h3 className="font-plus-jakarta text-[20px] md:text-[24px] font-bold text-on-surface leading-tight">
+        <h3 className="font-plus-jakarta text-[20px] md:text-[24px] font-bold text-on-surface dark:text-dark-on-surface leading-tight">
           {title}
         </h3>
         
@@ -49,7 +49,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, subtitle, date, loca
           <h4 className="font-plus-jakarta text-[16px] md:text-[18px] font-semibold text-primary">
             {subtitle}
           </h4>
-          <div className="flex flex-col gap-0.5 text-[14px] font-inter text-on-surface-variant/70">
+          <div className="flex flex-col gap-0.5 text-[14px] font-inter text-on-surface-variant/70 dark:text-dark-on-surface-variant/70">
             <span>{date}</span>
             <span>{location}</span>
           </div>
@@ -64,9 +64,9 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, subtitle, date, loca
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-2 text-on-surface-variant text-[15px] leading-relaxed font-inter"
+                className="flex items-start gap-2 text-on-surface-variant dark:text-dark-on-surface-variant text-[15px] leading-relaxed font-inter"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#131b2e] mt-2 shrink-0"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#131b2e] dark:bg-dark-on-surface-variant mt-2 shrink-0"></div>
                 <span>{item}</span>
               </motion.li>
             ))}
@@ -138,7 +138,7 @@ const ExpEduc: React.FC = () => {
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="bg-surface/90 backdrop-blur-md border border-on-surface/5 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl relative"
+          className="bg-surface/90 dark:bg-dark-surface-card/90 backdrop-blur-md border border-on-surface/5 dark:border-[#3a3a55]/20 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl relative"
         >
           <div className="text-center mb-10 md:mb-16">
             <motion.h2 
@@ -146,7 +146,7 @@ const ExpEduc: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface mb-4 md:mb-6 tracking-tight"
+              className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface mb-4 md:mb-6 tracking-tight"
             >
               My Journey
             </motion.h2>
@@ -155,7 +155,7 @@ const ExpEduc: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
-              className="text-base sm:text-lg md:text-xl text-on-surface-variant font-inter italic opacity-80 max-w-2xl mx-auto"
+              className="text-base sm:text-lg md:text-xl text-on-surface-variant dark:text-dark-on-surface-variant font-inter italic opacity-80 max-w-2xl mx-auto"
             >
               From student to aspiring full-stack developer.
             </motion.p>
@@ -168,19 +168,19 @@ const ExpEduc: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="flex flex-col items-center mb-10"
           >
-            <div className="inline-flex items-center p-1 bg-on-surface/5 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-on-surface/5">
+            <div className="inline-flex items-center p-1 bg-on-surface/5 dark:bg-dark-on-surface-variant/10 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-on-surface/5 dark:border-[#3a3a55]/20">
                <button
                 onClick={() => setActiveTab('experience')}
                 className={`px-4 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-plus-jakarta font-bold text-[13px] sm:text-[15px] transition-all duration-300 relative ${
                   activeTab === 'experience' 
                     ? 'text-white' 
-                    : 'text-on-surface-variant hover:text-on-surface'
+                    : 'text-on-surface-variant dark:text-dark-on-surface-variant hover:text-on-surface dark:hover:text-dark-on-surface'
                 }`}
               >
                 {activeTab === 'experience' && (
                   <motion.div 
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-[#131b2e] rounded-lg sm:rounded-xl shadow-lg -z-10"
+                    className="absolute inset-0 bg-[#131b2e] dark:bg-primary rounded-lg sm:rounded-xl shadow-lg -z-10"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -191,7 +191,7 @@ const ExpEduc: React.FC = () => {
                 className={`px-4 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-plus-jakarta font-bold text-[13px] sm:text-[15px] transition-all duration-300 relative ${
                   activeTab === 'education' 
                     ? 'text-white' 
-                    : 'text-on-surface-variant hover:text-on-surface'
+                    : 'text-on-surface-variant dark:text-dark-on-surface-variant hover:text-on-surface dark:hover:text-dark-on-surface'
                 }`}
               >
                 {activeTab === 'education' && (
