@@ -54,7 +54,7 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
