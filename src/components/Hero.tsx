@@ -126,7 +126,7 @@ const Hero: React.FC<HeroProps> = ({ isLoading = false }) => {
             <motion.div variants={slideLeftInVariants} className="w-16 h-1 bg-primary rounded-full mx-auto md:mx-0"></motion.div>
           </div>
           <motion.p variants={slideLeftInVariants} className="text-on-surface-variant dark:text-dark-on-surface-variant max-w-md mx-auto md:mx-0 leading-relaxed text-[16px] md:text-[18px]">
-            I am a passionate web developer dedicated to building modern, responsive, and user-friendly web applications. I continuously expand my knowledge and skills to create impactful digital solutions that deliver exceptional user experiences. Feel free to view my <a href="/PolidarioAndrewLloydResume.pdf" target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">resume</a>.
+            I am a passionate web developer dedicated to building modern, responsive, and user-friendly web applications. I continuously expand my knowledge and skills to create impactful digital solutions that deliver exceptional user experiences. 
           </motion.p>
           
           {/* Actions */}
