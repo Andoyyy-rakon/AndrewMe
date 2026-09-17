@@ -1,19 +1,19 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useInView, AnimatePresence, useAnimation } from 'framer-motion';
-import Ligtaspage from '../assets/images/LigtasPicslides.png';
-import Familylist from '../assets/images/Familylist.png';
-import LigtasDemo from '../assets/images/LigtasVid.mp4';
-import Alresgreenemojibg from '../assets/images/Alresgreenemoji-no-bg-no-bg.png';
-import ALResDemo from '../assets/images/AlresVidd.mp4';
-import Alearn1st from '../assets/images/Alearn1st.png';
-import Alearn2nd from '../assets/images/Alearn2nd.png';
-import AlearnVid from '../assets/images/Alearnvid.mp4';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import Ligtaspage from '../assets/images/LigtasThumbnail.jpeg';
+import ZoqelleThumbnail from '../assets/images/ZoqelleThumbnail.jpg';
+import ALResThumbnailNew from '../assets/images/ALResThumbnailNew.jpeg';
+import ALearnThumbnailNew from '../assets/images/ALearnThumbnailNew.jpg';
+
 
 import reactIcon from '../assets/images/LanguagesIcons/react-svgrepo-com.svg';
 import nodeIcon from '../assets/images/LanguagesIcons/node-js-svgrepo-com.svg';
 import expressIcon from '../assets/images/LanguagesIcons/express-svgrepo-com.svg';
 import mongoIcon from '../assets/images/LanguagesIcons/mongo-svgrepo-com.svg';
 import tailwindIcon from '../assets/images/LanguagesIcons/tailwind-svgrepo-com.svg';
+import supabaseIcon from '../assets/images/LanguagesIcons/supabase-icon.svg';
+import postgresqlIcon from '../assets/images/LanguagesIcons/postgresql-svgrepo-com.svg';
+import typescriptIcon from '../assets/images/LanguagesIcons/typescript-icon-svgrepo-com.svg';
 
 interface Project {
   id: string;
@@ -35,6 +35,8 @@ const normalizeTechName = (name: string): string => {
   if (lower.startsWith('websocket')) return 'WebSocket';
   if (lower.startsWith('tailwind')) return 'Tailwind CSS';
   if (lower === 'typescript') return 'TypeScript';
+  if (lower.startsWith('supabase')) return 'Supabase';
+  if (lower.startsWith('postgres')) return 'PostgreSQL';
   if (lower.includes('rf') || lower.includes('gnss')) return 'RF / GNSS';
   return name;
 };
@@ -71,13 +73,23 @@ const techConfig: Record<string, { icon: React.ReactNode; bg: string; text: stri
     bg: 'bg-[#ccf2fb]',
     text: 'text-[#0e7490]'
   },
+  'Supabase': {
+    icon: <img src={supabaseIcon} className="w-3.5 h-3.5 object-contain" alt="Supabase" />,
+    bg: 'bg-[#d4f5e9]',
+    text: 'text-[#3ecf8e]'
+  },
+  'PostgreSQL': {
+    icon: <img src={postgresqlIcon} className="w-3.5 h-3.5 object-contain" alt="PostgreSQL" />,
+    bg: 'bg-[#dce8f5]',
+    text: 'text-[#336791]'
+  },
   'RF / GNSS': {
     icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>,
     bg: 'bg-[#ede5fb]',
     text: 'text-[#7c3aed]'
   },
   'TypeScript': {
-    icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0H1.125zm17.363 9.75c.612 0 1.154.037 1.627.111v2.111c-.473-.074-1.015-.111-1.627-.111-1.259 0-2.167.315-2.722.944-.555.63-.833 1.574-.833 2.833V24h-2.111V9.75h2.111v1.111c.148-.37.407-.741.778-1.111s1.074-.759 2.111-.759zm-13.388 0c1.037 0 1.944.352 2.722 1.056L6.444 12.33c-.556-.481-1.074-.722-1.556-.722-.481 0-.889.185-1.222.556s-.5.852-.5 1.444c0 .593.167 1.074.5 1.444s.741.556 1.222.556c.481 0 1-.241 1.556-.722l1.389 1.528c-.778.704-1.685 1.056-2.722 1.056-1.185 0-2.185-.389-3-1.167S0 15.685 0 14.444c0-1.241.407-2.259 1.222-3.056s1.815-1.194 3-1.138z" transform="translate(4 4) scale(0.66)"/></svg>,
+    icon: <img src={typescriptIcon} className="w-3.5 h-3.5 object-contain" alt="TypeScript" />,
     bg: 'bg-[#e0f2fe]',
     text: 'text-[#0369a1]'
   },
@@ -125,116 +137,16 @@ const TechTag: React.FC<{ name: string }> = ({ name }) => {
   );
 };
 
-const MediaSlider: React.FC<{ project: Project; currentSlide: number; setCurrentSlide: (i: number) => void }> = ({ project, currentSlide, setCurrentSlide }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const parentRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
-  const controls = useAnimation();
+const MediaSlider: React.FC<{ project: Project; currentSlide?: number; setCurrentSlide?: (i: number) => void }> = ({ project }) => {
+  const mainMedia = project.media[0];
 
-  useEffect(() => {
-    if (parentRef.current) {
-      setWidth(parentRef.current.offsetWidth);
-    }
-    const handleResize = () => {
-      if (parentRef.current) {
-        setWidth(parentRef.current.offsetWidth);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (width > 0) {
-      controls.start({ x: -currentSlide * width });
-    }
-  }, [currentSlide, width, controls]);
-  
   return (
-    <div className={`relative w-full max-w-lg ${project.sliderBg} rounded-2xl p-4 sm:p-6 md:p-8 shadow-sm group mx-auto transition-colors duration-500`}>
-      <div ref={parentRef} className="relative overflow-hidden aspect-[4/3] flex flex-col">
-        <motion.div 
-          ref={containerRef}
-          drag="x"
-          dragConstraints={{ 
-            left: -width * (project.media.length - 1), 
-            right: 0 
-          }}
-          dragElastic={0.15}
-          dragMomentum={false}
-          onDragEnd={(_, { offset, velocity }) => {
-            const swipeThreshold = width / 4; 
-            const velocityThreshold = 500;
-            const minDragForVelocity = 30;
-
-            const distanceSwipe = Math.abs(offset.x) > swipeThreshold;
-            const velocitySwipe = Math.abs(velocity.x) > velocityThreshold && Math.abs(offset.x) > minDragForVelocity;
-
-            if (distanceSwipe || velocitySwipe) {
-                if (offset.x < 0 && currentSlide < project.media.length - 1) {
-                    setCurrentSlide(currentSlide + 1);
-                } else if (offset.x > 0 && currentSlide > 0) {
-                    setCurrentSlide(currentSlide - 1);
-                } else {
-                    controls.start({ x: -currentSlide * width });
-                }
-            } else {
-                controls.start({ x: -currentSlide * width });
-            }
-          }}
-          className="flex absolute h-full w-full"
-          animate={controls}
-          transition={{ type: "spring", stiffness: 180, damping: 24, mass: 0.8 }}
-          style={{ cursor: 'grab', x: -currentSlide * width }}
-          whileTap={{ cursor: 'grabbing' }}
-        >
-          {project.media.map((item, index) => (
-            <div key={index} className="w-full h-full flex-shrink-0 flex flex-col px-1">
-              {/* Synchronized Title */}
-              <div className="mb-4 h-8 md:h-10 flex items-center">
-                <span className="text-base md:text-xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface leading-tight px-1">
-                  {item.title}
-                </span>
-              </div>
-              
-              {/* Media */}
-              <div className="flex-1 rounded-xl overflow-hidden flex items-center justify-center">
-                {item.type === 'image' ? (
-                  <img 
-                    src={item.src} 
-                    alt={item.alt} 
-                    className="w-full h-full object-contain select-none pointer-events-none rounded-xl" 
-                  />
-                ) : (
-                  <video 
-                    src={item.src} 
-                    className="w-full h-full object-fit pointer-events-none rounded-xl"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  />
-                )}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-      
-      {/* Slider Indicators */}
-      <div className="mt-6 md:mt-8 flex justify-center gap-1.5">
-        {project.media.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrentSlide(i)}
-            className={`h-1.5 rounded-full transition-all duration-700 ${
-              currentSlide === i 
-                ? 'w-6 bg-on-surface' 
-                : 'w-1.5 bg-on-surface/20'
-            }`}
-          />
-        ))}
-      </div>
+    <div className="relative w-full max-w-lg aspect-[4/3] rounded-2xl overflow-hidden shadow-md mx-auto group border border-on-surface/10 dark:border-dark-on-surface-variant/20 transition-all duration-500">
+      <img 
+        src={mainMedia?.src} 
+        alt={mainMedia?.alt} 
+        className="w-full h-full object-cover select-none pointer-events-none rounded-2xl transition-transform duration-500 group-hover:scale-105" 
+      />
     </div>
   );
 };
@@ -415,13 +327,104 @@ const projectDetails: Record<string, ProjectDetail> = {
       'Mobile application',
     ],
   },
+  zoqelle: {
+    overview: 'Zoqelle is a full-stack, modern e-commerce web platform designed for a luxury boutique cake bakery. Built with an editorial aesthetic, high-craft typography, and a warm color palette, Zoqelle provides a premium shopping experience for customers and a full-featured management dashboard for store administrators.',
+    whyIBuiltThis: 'Many small artisanal bakeries lack sophisticated digital storefronts that match the craftsmanship of their products. Existing e-commerce solutions often feel generic and fail to convey the luxury and care behind handcrafted cakes.\n\nI wanted to build a platform that bridges artisanal baking with a state-of-the-art digital storefront, providing both a premium customer shopping experience and a powerful admin management dashboard.',
+    problem: 'Building a full e-commerce platform for a boutique bakery involves several challenges:',
+    problemBullets: [
+      'Creating a luxury editorial aesthetic that reflects artisanal craftsmanship',
+      'Implementing real-time stock management and order lifecycle tracking',
+      'Building secure role-based authentication for customers and administrators',
+      'Designing a seamless checkout flow with address pre-filling and shipping calculation',
+      'Managing two separate applications (storefront and admin) with a shared backend',
+    ],
+    solution: 'Zoqelle integrates Supabase as a Backend-as-a-Service for authentication, PostgreSQL database, and storage, while providing two polished React + TypeScript applications: a customer-facing storefront with editorial design and an admin dashboard for complete store management.',
+    architecture: [
+      'Customer Storefront (React + TypeScript)',
+      'Admin Dashboard (React + TypeScript)',
+      'Supabase Authentication (Email/Password + Google OAuth)',
+      'PostgreSQL Database (Products, Orders, Profiles)',
+      'Supabase Storage (Product Images)',
+      'Row Level Security (RLS Policies)',
+    ],
+    techCategories: [
+      { category: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS'] },
+      { category: 'Backend', items: ['Supabase', 'PostgreSQL'] },
+      { category: 'Services', items: ['Google OAuth'] },
+    ],
+    features: [
+      'Editorial shop with category filtering',
+      'Smart cart with free shipping tracker',
+      'Real-time stock validation',
+      'Order lifecycle tracking',
+      'Role-based admin protection',
+      'Product catalog management',
+      'Revenue analytics dashboard',
+      'Responsive luxury aesthetic',
+      'Google OAuth authentication',
+    ],
+    challenges: 'One of the biggest challenges was managing two separate React applications (customer storefront and admin dashboard) that share the same Supabase backend while maintaining strict role-based access control. Another challenge was designing a consistent luxury aesthetic across both applications.',
+    howISolvedThem: 'I implemented granular Row Level Security policies in Supabase to ensure customers only access their own data while admins have storewide permissions. For design consistency, I created a shared Tailwind CSS design system with custom typography (Fraunces, Playfair Display, Inter) and a warm color palette that both applications reference.',
+    whatILearned: [
+      'Supabase backend architecture',
+      'PostgreSQL database design',
+      'Row Level Security implementation',
+      'TypeScript full-stack development',
+      'Multi-application project management',
+      'E-commerce checkout flows',
+      'Editorial UI/UX design',
+      'Role-based access control',
+    ],
+    futureImprovements: [
+      'Payment gateway integration',
+      'Customer review system',
+      'Advanced analytics dashboard',
+      'Email order notifications',
+      'Wishlist functionality',
+      'Custom cake order builder',
+    ],
+  },
 };
 
-/* Accent color config per project */
-const projectAccents: Record<string, { text: string; border: string; bg: string; bgLight: string }> = {
-  alres:  { text: 'text-[#e11d48]', border: 'border-[#e11d48]', bg: 'bg-[#e11d48]', bgLight: 'bg-[#fff1f2]' },
-  ligtas: { text: 'text-[#2563eb]', border: 'border-[#2563eb]', bg: 'bg-[#2563eb]', bgLight: 'bg-[#eff6ff]' },
-  alearn: { text: 'text-[#7c3aed]', border: 'border-[#7c3aed]', bg: 'bg-[#7c3aed]', bgLight: 'bg-[#f5f3ff]' },
+/* Accent color config per project (Zoqelle soft luxury pastel rose theme) */
+// const projectAccents: Record<string, { text: string; border: string; bg: string; bgLight: string }> = {
+//   zoqelle: { text: 'text-[#9e3a53]', border: 'border-[#e8b4c0]', bg: 'bg-[#9e3a53]', bgLight: 'bg-[#fcf0f3]' },
+//   alres:  { text: 'text-[#e11d48]', border: 'border-[#e11d48]', bg: 'bg-[#e11d48]', bgLight: 'bg-[#fff1f2]' },
+//   ligtas: { text: 'text-[#2563eb]', border: 'border-[#2563eb]', bg: 'bg-[#2563eb]', bgLight: 'bg-[#eff6ff]' },
+//   alearn: { text: 'text-[#7c3aed]', border: 'border-[#7c3aed]', bg: 'bg-[#7c3aed]', bgLight: 'bg-[#f5f3ff]' },
+// };
+
+const projectAccents: Record<
+  string,
+  { text: string; border: string; bg: string; bgLight: string }
+> = {
+  zoqelle: {
+    text: 'text-[#7A2946]',
+    border: 'border-[#C98A9F]',
+    bg: 'bg-[#7A2946]',
+    bgLight: 'bg-[#F8EEF2]',
+  },
+
+  alres: {
+    text: 'text-[#2563A6]',
+    border: 'border-[#8EB5D9]',
+    bg: 'bg-[#2563A6]',
+    bgLight: 'bg-[#EEF5FB]',
+  },
+
+  ligtas: {
+    text: 'text-[#C76A2B]',
+    border: 'border-[#E6AE82]',
+    bg: 'bg-[#C76A2B]',
+    bgLight: 'bg-[#FFF4EB]',
+  },
+
+  alearn: {
+    text: 'text-[#A67C32]',
+    border: 'border-[#D9BD7A]',
+    bg: 'bg-[#A67C32]',
+    bgLight: 'bg-[#FBF6E9]',
+  },
 };
 
 
@@ -469,22 +472,14 @@ const ProjectExploreContent: React.FC<{
         </h2>
       </div>
 
-      {/* ── Hero Media ── */}
-      <div className={`relative rounded-[1.5rem] md:rounded-[2rem] p-5 sm:p-8 md:p-10`}>
-        <div className="aspect-video overflow-hidden">
-          {project.media.find(m => m.type === 'video') ? (
-            <video 
-              src={project.media.find(m => m.type === 'video')?.src} 
-              autoPlay loop muted playsInline
-              className="w-full h-full object-contain " 
-            />
-          ) : (
-            <img 
-              src={project.media[0].src} 
-              alt={project.media[0].alt} 
-              className="w-full h-full object-contain" 
-            />
-          )}
+      {/* ── Hero Media (Photo Showcase) ── */}
+      <div className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-md border border-on-surface/10 dark:border-dark-on-surface-variant/20">
+        <div className="aspect-video overflow-hidden flex items-center justify-center">
+          <img 
+            src={project.media[0]?.src} 
+            alt={project.media[0]?.alt} 
+            className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem]" 
+          />
         </div>
       </div>
 
@@ -787,9 +782,36 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, onInView, isExpanded
    ================================================================ */
 
 const ProjectSection: React.FC = () => {
-  const [activeProjectId, setActiveProjectId] = useState('alres');
+  const [activeProjectId, setActiveProjectId] = useState('zoqelle');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [expandedProjectId, setExpandedProjectId] = useState<string | null>(null);
+
+
+  //ang gin panas koni nga slider 
+  // const MediaSlider: React.FC<{ project: Project; currentSlide?: number; setCurrentSlide?: (i: number) => void }> = ({ project, currentSlide = 0 }) => {
+  // // const containerRef = useRef<HTMLDivElement>(null);
+  // const parentRef = useRef<HTMLDivElement>(null);
+  // const [width, setWidth] = useState(0);
+  // const controls = useAnimation();
+
+  // useEffect(() => {
+  //   if (parentRef.current) {
+  //     setWidth(parentRef.current.offsetWidth);
+  //   }
+  //   const handleResize = () => {
+  //     if (parentRef.current) {
+  //       setWidth(parentRef.current.offsetWidth);
+  //     }
+  //   };
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (width > 0) {
+  //     controls.start({ x: -currentSlide * width });
+  //   }
+  // }, [currentSlide, width, controls]);
   
   // Track DOM element references for each project card and its explore content
   const projectRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -831,8 +853,20 @@ const ProjectSection: React.FC = () => {
       }
     }, 100);
   }, []);
- 
+ //color
   const projects: Project[] = [
+    {
+      id: 'zoqelle',
+      title: 'Zoqelle | Luxury Artisanal Bakery E-Commerce',
+      description: 'Built a full-stack luxury e-commerce platform for an artisanal bakery featuring a premium customer storefront and a comprehensive admin dashboard. The platform includes editorial shop browsing, smart cart with shipping tracking, order lifecycle management, catalog control, and revenue analytics — all powered by Supabase with PostgreSQL and Row Level Security.',
+      tech: ['React.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Tailwind CSS'],
+      sliderBg: 'bg-[#fbf0f2]',
+      media: [
+        { type: 'image', src: ZoqelleThumbnail, alt: 'Zoqelle Storefront Preview', title: 'Customer Storefront' },
+      ],
+      visitLink: 'https://zoqelle.vercel.app/',
+      codeLink: 'https://github.com/Andoyyy-rakon/Zoqelle'
+    },
     {
       id: 'alres',
       title: 'ALRes | AI-Powered Resume Builder',
@@ -840,8 +874,7 @@ const ProjectSection: React.FC = () => {
       tech: ['React.js','Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
       sliderBg: 'bg-[#ffe4e6]',
       media: [
-        { type: 'image', src: Alresgreenemojibg, alt: 'ALRes Project Showcase', title: 'Main Dashboard & Landing' },
-        { type: 'video', src: ALResDemo, alt: 'ALRes Demo Video', title: 'Feature Walkthrough' },
+        { type: 'image', src: ALResThumbnailNew, alt: 'ALRes Project Showcase', title: 'Main Dashboard & Landing' },
       ],
       visitLink: 'https://alres-one.vercel.app/',
       codeLink: 'https://github.com/Andoyyy-rakon/ALRes'
@@ -854,8 +887,6 @@ const ProjectSection: React.FC = () => {
       sliderBg: 'bg-[#dbeafe]',
       media: [
         { type: 'image', src: Ligtaspage, alt: 'LIGTAS Home Page', title: 'Main Dashboard' },
-        { type: 'image', src: Familylist, alt: 'LIGTAS Family List', title: 'Family Census Records' },
-        { type: 'video', src: LigtasDemo, alt: 'LIGTAS Demo Video', title: 'Interactive Demo' },
       ],
       codeLink: 'https://github.com/Andoyyy-rakon/LIGTAS-DASHBOARD'
     },
@@ -864,11 +895,9 @@ const ProjectSection: React.FC = () => {
       title: 'ALearn | AI-Powered Study Platform',
       description: 'Built a full-stack AI-powered learning platform that transforms study topics into interactive flashcards and quizzes to promote active learning and long-term knowledge retention. The platform leverages AI to generate personalized study materials, provide detailed explanations, and deliver an engaging learning experience through a responsive and modern interface.',
       tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
-      sliderBg: 'bg-[#ede9fe]',
+      sliderBg: 'bg-[#ede9fe]', 
       media: [
-        { type: 'image', src: Alearn1st, alt: 'ALearn Platform Preview', title: 'Interactive Learning' },
-        { type: 'image', src: Alearn2nd, alt: 'ALearn Study Interface', title: 'Personalized Study' },
-        { type: 'video', src: AlearnVid, alt: 'ALearn Demo Video', title: 'Platform Walkthrough' },
+        { type: 'image', src: ALearnThumbnailNew, alt: 'ALearn Platform Preview', title: 'Interactive Learning' },
       ],
       visitLink: 'https://a-learn.vercel.app/',
       codeLink: 'https://github.com/Andoyyy-rakon/ALearn'

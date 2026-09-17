@@ -9,6 +9,18 @@
   body {
     @apply bg-surface text-on-surface font-inter transition-colors duration-300 dark:bg-dark-surface dark:text-dark-on-surface;
   }
+
+  /* Fix browser input autofill white background in dark mode */
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover, 
+  .dark input:-webkit-autofill:focus,
+  .dark textarea:-webkit-autofill,
+  .dark textarea:-webkit-autofill:hover,
+  .dark textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: #f3f4f6 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1e1e24 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }
 
 .net-box-grid {
@@ -25,3 +37,4 @@
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
+

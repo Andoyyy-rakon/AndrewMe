@@ -83,19 +83,19 @@ const ExpEduc: React.FC = () => {
 
   const experienceData = [
     {
-      title: "OJT Trainee (Full-Stack Development)",
+      title: "Full-Stack Developer Intern",
       subtitle: "IReply Back Office Services, Inc.",
       date: "February 2026 – April 2026",
       location: "Philippines",
       description: [
-        "Collaborated in project planning and requirement gathering.",
-        "Designed and implemented front-end using React and Tailwind CSS.",
-        "Developed and integrated backend services and APIs using Node.js and Express.",
-        "Managed and optimized databases for performance and reliability.",
-        "Implemented secure user authentication and authorization.",
-        "Facilitated continuous integration and deployment (CI/CD) pipelines.",
-        "Deployed and managed applications on Raspberry Pi for edge computing solutions.",
-        "Conducted comprehensive testing and debugging to ensure high software quality."
+        "Collaborated in project planning, requirements gathering, and technical discussions throughout the development process.",
+        "Designed and developed responsive frontend interfaces using React.js and Tailwind CSS.",
+        "Developed and integrated backend services and RESTful APIs using Node.js and Express.js.",
+        "Designed database models and integrated database functionality with backend services.",
+        "Implemented user authentication and authorization for secure application access.",
+        "Used Git and GitHub for version control and collaborative development workflows.",
+        "Deployed and configured the application on Raspberry Pi for device-side operation and testing.",
+        "Conducted testing, debugging, and API validation using Postman to ensure reliable system functionality."
       ]
     }
   ];
@@ -105,26 +105,11 @@ const ExpEduc: React.FC = () => {
       title: "Bachelor of Science in Computer Engineering",
       subtitle: "Carlos Hilado Memorial State University, Bacolod City",
       date: "2022 - 2026",
-      location: "Philippines"
-    },
-    // {
-    //   title: "Senior High School",
-    //   subtitle: "Gil Montilla National High School, Sipalay City",
-    //   date: "2020 - 2022",
-    //   location: "Philippines"
-    // },
-    // {
-    //   title: "Junior High School",
-    //   subtitle: "Gil Montilla National High School",
-    //   date: "2016 - 2020",
-    //   location: "Philippines"
-    // },
-    // {
-    //   title: "Elementary Education",
-    //   subtitle: "Barangay 5 Elementary School",
-    //   date: "2010 - 2016",
-    //   location: "Philippines"
-    // }
+      location: "Philippines",
+      description: [
+        "Dean’s Lister — 5 Terms"
+      ]
+    }
   ];
 
   return (
@@ -146,19 +131,10 @@ const ExpEduc: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface mb-4 md:mb-6 tracking-tight"
+              className="text-3xl sm:text-4xl md:text-5xl font-plus-jakarta font-bold text-on-surface dark:text-dark-on-surface tracking-tight"
             >
               My Journey
             </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
-              className="text-base sm:text-lg md:text-xl text-on-surface-variant dark:text-dark-on-surface-variant font-inter italic opacity-80 max-w-2xl mx-auto"
-            >
-              From student to aspiring full-stack developer.
-            </motion.p>
           </div>
 
           <motion.div 

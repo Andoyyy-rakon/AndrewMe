@@ -12,6 +12,13 @@ import mongoIcon from '../assets/images/LanguagesIcons/mongo-svgrepo-com.svg';
 import gitIcon from '../assets/images/LanguagesIcons/git-svgrepo-com.svg';
 import githubIcon from '../assets/images/LanguagesIcons/github-svgrepo-com.svg';
 import postmanIcon from '../assets/images/LanguagesIcons/postman-icon-svgrepo-com.svg';
+import typescriptIcon from '../assets/images/LanguagesIcons/typescript-icon-svgrepo-com.svg';
+import supabaseIcon from '../assets/images/LanguagesIcons/supabase-icon.svg';
+import postgresqlIcon from '../assets/images/LanguagesIcons/postgresql-svgrepo-com.svg';
+import cppIcon from '../assets/images/LanguagesIcons/cplusplus-svgrepo-com.svg';
+import pythonIcon from '../assets/images/LanguagesIcons/python-svgrepo-com.svg';
+import figmaIcon from '../assets/images/LanguagesIcons/figma-svgrepo-com.svg';
+import canvaIcon from '../assets/images/LanguagesIcons/canva-svgrepo-com.svg';
 
 const skillsData = [
   {
@@ -22,6 +29,13 @@ const skillsData = [
         icon: <img src={reactIcon} className="w-5 h-5 object-contain" alt="React" />, 
         bgColor: "bg-[#d6effe]", 
         iconColor: "text-[#1a7abf]",
+        containerBg: "bg-surface-container-low"
+      },
+      { 
+        name: "TypeScript", 
+        icon: <img src={typescriptIcon} className="w-5 h-5 object-contain" alt="TypeScript" />, 
+        bgColor: "bg-[#e0f2fe]", 
+        iconColor: "text-[#0369a1]",
         containerBg: "bg-surface-container-low"
       },
       { 
@@ -76,6 +90,58 @@ const skillsData = [
         icon: <img src={mongoIcon} className="w-5 h-5 object-contain" alt="MongoDB" />, 
         bgColor: "bg-[#d4ecd4]", 
         iconColor: "text-[#2d7a2d]",
+        containerBg: "bg-surface-container-low"
+      },
+      { 
+        name: "Supabase", 
+        icon: <img src={supabaseIcon} className="w-5 h-5 object-contain" alt="Supabase" />, 
+        bgColor: "bg-[#d4f5e9]", 
+        iconColor: "text-[#3ecf8e]",
+        containerBg: "bg-surface-container-low"
+      },
+      { 
+        name: "PostgreSQL", 
+        icon: <img src={postgresqlIcon} className="w-5 h-5 object-contain" alt="PostgreSQL" />, 
+        bgColor: "bg-[#dce8f5]", 
+        iconColor: "text-[#336791]",
+        containerBg: "bg-surface-container-low"
+      }
+    ]
+  },
+  {
+    category: "Languages",
+    items: [
+      { 
+        name: "C++", 
+        icon: <img src={cppIcon} className="w-5 h-5 object-contain" alt="C++" />, 
+        bgColor: "bg-[#dce8f5]", 
+        iconColor: "text-[#659AD2]",
+        containerBg: "bg-surface-container-low"
+      },
+      { 
+        name: "Python", 
+        icon: <img src={pythonIcon} className="w-5 h-5 object-contain" alt="Python" />, 
+        bgColor: "bg-[#fef0d6]", 
+        iconColor: "text-[#3776ab]",
+        containerBg: "bg-surface-container-low"
+      }
+    ]
+  },
+  {
+    category: "Design",
+    items: [
+      { 
+        name: "Figma", 
+        icon: <img src={figmaIcon} className="w-5 h-5 object-contain" alt="Figma" />, 
+        bgColor: "bg-[#f3e8ff]", 
+        iconColor: "text-[#a259ff]",
+        containerBg: "bg-surface-container-low"
+      },
+      { 
+        name: "Canva", 
+        icon: <img src={canvaIcon} className="w-5 h-5 object-contain" alt="Canva" />, 
+        bgColor: "bg-[#ede5fb]", 
+        iconColor: "text-[#7D2AE7]",
         containerBg: "bg-surface-container-low"
       }
     ]
